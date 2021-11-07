@@ -27,7 +27,7 @@ pluginBundle {
     (plugins) {
         pluginName {
             displayName = "Gradle Hugo plugin"
-            tags = listOf("hugo", "gohugo", "wrapper", "static", "site", "documentation", "generation")
+            tags = listOf("gohugoio", "wrapper", "documentation")
             version = pluginVersion
         }
     }
