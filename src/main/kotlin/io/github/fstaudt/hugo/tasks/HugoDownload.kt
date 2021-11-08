@@ -9,8 +9,6 @@ import org.gradle.api.tasks.TaskAction
 import org.jetbrains.kotlin.gradle.internal.ensureParentDirsCreated
 import java.io.File
 import java.io.FileOutputStream
-import java.net.URL
-import java.text.MessageFormat
 import java.util.zip.ZipException
 
 @CacheableTask
@@ -31,19 +29,21 @@ open class HugoDownload : DefaultTask() {
     @TaskAction
     fun download() {
         with(project) {
-            val downloadedArchive = downloadArchive()
-            when (downloadedArchive.extension) {
-                "zip" -> copy { from(zipTree(downloadedArchive)); into(output) }
-                "tgz", "tar", "gz" -> copy { from(tarTree(downloadedArchive)); into(output) }
-                else -> throw ZipException("Unsupported extension for archive ${downloadedArchive.name}.")
+            downloadArchive().also {
+                when (it.extension) {
+                    "zip" -> copy { from(zipTree(it)); into(output) }
+                    "tgz", "tar", "gz" -> copy { from(tarTree(it)); into(output) }
+                    else -> throw ZipException("Unsupported extension for archive ${it.name}.")
+                }
             }
         }
     }
 
     private fun downloadArchive(): File {
-        val url = URL(MessageFormat.format(extension.downloadUrl(), extension.version))
+        val url = extension.downloadUrl()
         return File("${project.buildDir}/$DOWNLOAD_DIRECTORY/${url.file}").also {
             it.ensureParentDirsCreated()
+            logger.info("Downloading Hugo binary from $url")
             url.openStream().use { input ->
                 FileOutputStream(it).use { output ->
                     input.copyTo(output)

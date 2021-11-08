@@ -19,9 +19,10 @@ hugo {
     linuxDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Linux-64bit.tar.gz"
     // Download URL for macOS (`{0}` can be used to replace version)
     macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_macOS-64bit.tar.gz"
+    // Operating system family (Windows, macOS or Unix)
+    osFamily = io.github.fstaudt.hugo.OsFamily.CURRENT_SYSTEM // default value derived from system property "os.name"
 }
 ```
-
 
 ## Tasks
 
@@ -49,7 +50,7 @@ tasks.hugoBuild {
     outputDirectory = File("$buildDir/hugo/publish")
     // additional path in output directory
     publicationPath = ""
-    // additional build arguments (concatenated to "-d" argument generated from outputDirectory and publicationPath) 
+    // additional build arguments (appended to "-d" argument generated from previous properties) 
     arguments = emptyList()
 }
 ```
