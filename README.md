@@ -54,7 +54,7 @@ tasks.hugoBuild {
 }
 ```
 
-:info: This task is cacheable and should be preferred to `hugo` task to build Hugo static site.
+:bulb: This task is cacheable and should be preferred to `hugo` task to build Hugo static site.
 
 ### hugoDownload
 
