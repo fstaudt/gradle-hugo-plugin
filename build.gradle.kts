@@ -1,8 +1,10 @@
+import org.gradle.api.JavaVersion.VERSION_1_8
+
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
     id("com.gradle.plugin-publish") version "0.17.0"
-   `maven-publish`
+    `maven-publish`
 }
 
 repositories {
@@ -45,4 +47,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+java {
+    targetCompatibility = VERSION_1_8
 }
