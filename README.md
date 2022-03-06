@@ -12,7 +12,7 @@ Plugin extension is available to override general configuration (default values 
 ```kotlin
 hugo {
     // Hugo version
-    version = "0.89.1"
+    version = "0.93.2"
     // Download URL for Windows (`{0}` can be used to replace version)
     windowsDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Windows-64bit.zip"
     // Download URL for Linux (`{0}` can be used to replace version)

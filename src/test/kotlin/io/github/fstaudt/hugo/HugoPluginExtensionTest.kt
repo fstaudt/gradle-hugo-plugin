@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test
 
 class HugoPluginExtensionTest {
     companion object {
-        const val WINDOWS_ARCHIVE = "gohugoio/hugo/releases/download/v0.89.1/hugo_extended_0.89.1_Windows-64bit.zip"
-        const val LINUX_ARCHIVE = "gohugoio/hugo/releases/download/v0.89.1/hugo_extended_0.89.1_Linux-64bit.tar.gz"
-        const val MAC_OS_ARCHIVE = "gohugoio/hugo/releases/download/v0.89.1/hugo_extended_0.89.1_macOS-64bit.tar.gz"
+        const val WINDOWS_ARCHIVE = "gohugoio/hugo/releases/download/v0.93.2/hugo_extended_0.93.2_Windows-64bit.zip"
+        const val LINUX_ARCHIVE = "gohugoio/hugo/releases/download/v0.93.2/hugo_extended_0.93.2_Linux-64bit.tar.gz"
+        const val MAC_OS_ARCHIVE = "gohugoio/hugo/releases/download/v0.93.2/hugo_extended_0.93.2_macOS-64bit.tar.gz"
     }
 
     @BeforeEach
