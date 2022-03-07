@@ -6,6 +6,8 @@ import io.github.fstaudt.hugo.tasks.HugoCommand
 import io.github.fstaudt.hugo.tasks.HugoCommand.Companion.HUGO_COMMAND
 import io.github.fstaudt.hugo.tasks.HugoDownload
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.HUGO_DOWNLOAD
+import io.github.fstaudt.hugo.tasks.HugoServer
+import io.github.fstaudt.hugo.tasks.HugoServer.Companion.HUGO_SERVER
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -27,13 +29,19 @@ class HugoPlugin : Plugin<Project> {
             }
             tasks.register<HugoCommand>(HUGO_COMMAND) {
                 group = HUGO
-                description = "Execute any Hugo command (e.g. new, serve ...)."
+                description = "Execute any Hugo command (e.g. new, gen ...)."
                 extension = pluginExtension
                 dependsOn(hugoDownload)
             }
             tasks.register<HugoBuild>(HUGO_BUILD) {
                 group = HUGO
                 description = "Build Hugo static site for publication."
+                extension = pluginExtension
+                dependsOn(hugoDownload)
+            }
+            tasks.register<HugoServer>(HUGO_SERVER) {
+                group = HUGO
+                description = "Run server for development of Hugo static site."
                 extension = pluginExtension
                 dependsOn(hugoDownload)
             }

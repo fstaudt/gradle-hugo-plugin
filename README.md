@@ -28,14 +28,32 @@ hugo {
 
 ### hugo
 
-Execute any Hugo command (e.g. new, serve ...).
+Execute any Hugo command (e.g. new, gen, check ...).
 
 Option `command` allows to specify the Hugo command to execute.\
 It defaults to `new site .`.
 
 ```shell
-gradle hugo --command=serve
+gradle hugo --command=check
 ```
+
+### hugoServer
+
+Run server for development of Hugo static site.\
+Sources of Hugo site must be stored in `src/main/hugo`.
+
+Task configuration can be overridden according to your needs (default values provided below).
+
+```kotlin
+tasks.hugoServer {
+    // hostname (and path) to the root
+    baseURL = "http://localhost:1313/documentation/"
+    // additional server arguments (appended to arguments generated from previous properties)
+    args = "--buildDrafts --buildExpired"
+}
+```
+
+:bulb: This task is configurable in build.gradle.kts and should be preferred to `hugo` task to serve Hugo static site.
 
 ### hugoBuild
 
