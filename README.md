@@ -69,7 +69,7 @@ tasks.hugoBuild {
     // additional path in output directory
     publicationPath = ""
     // additional build arguments (appended to "-d" argument generated from previous properties) 
-    arguments = emptyList()
+    args = "--buildDrafts"
 }
 ```
 

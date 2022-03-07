@@ -43,6 +43,7 @@ class HugoBuildTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
             assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).isFile
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/draft/index.html")).doesNotExist()
         }
     }
 
@@ -91,6 +92,16 @@ class HugoBuildTest {
         testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(FROM_CACHE)
             assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).isFile
+        }
+    }
+
+    @Test
+    fun `hugoBuild should take additional parameters into account`() {
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD, "--args=--buildDrafts").also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).isFile
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/draft/index.html")).isFile
         }
     }
 }

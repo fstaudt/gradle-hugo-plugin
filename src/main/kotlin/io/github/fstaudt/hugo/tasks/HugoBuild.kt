@@ -9,10 +9,12 @@ import org.gradle.api.tasks.IgnoreEmptyDirectories
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.options.Option
 import java.io.File
 
 @CacheableTask
@@ -27,7 +29,9 @@ open class HugoBuild : DefaultTask() {
     lateinit var extension: HugoPluginExtension
 
     @Input
-    var arguments: List<String> = emptyList()
+    @Optional
+    @Option(description = "Additional arguments for Hugo build command (defaults to \"\")")
+    var args: String = ""
 
     @InputDirectory
     @PathSensitive(RELATIVE)
@@ -43,10 +47,11 @@ open class HugoBuild : DefaultTask() {
     @TaskAction
     fun build() {
         outputDirectory.deleteRecursively()
+        val arguments = listOf("-d", "${outputDirectory.absolutePath}/$publicationPath") + args.split(' ')
         project.exec {
             workingDir = baseDirectory
             executable = "${project.buildDir}/$BINARY_DIRECTORY/hugo"
-            args = listOf("-d", "${outputDirectory.absolutePath}/$publicationPath") + arguments
+            args = arguments
         }
     }
 }
