@@ -1,7 +1,6 @@
 package io.github.fstaudt.hugo.tasks
 
 import io.github.fstaudt.hugo.HugoPluginExtension
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
@@ -27,7 +26,7 @@ open class HugoCommand : DefaultTask() {
 
     @TaskAction
     fun run() {
-        val baseDir = File("${project.projectDir}/$SOURCE_DIRECTORY")
+        val baseDir = File("${project.projectDir}/${extension.sourceDirectory}")
         baseDir.mkdirs()
         project.exec {
             workingDir = baseDir

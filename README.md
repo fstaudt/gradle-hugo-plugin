@@ -13,11 +13,13 @@ Plugin extension is available to override general configuration (default values 
 hugo {
     // Hugo version
     version = "0.98.0"
-    // Download URL for Windows (`{0}` can be used to replace version)
+    // Relative path to sources of Hugo site in Gradle project
+    sourceDirectory = "site"
+    // Download URL for Windows ( {0} can be used to replace version )
     windowsDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Windows-64bit.zip"
-    // Download URL for Linux (`{0}` can be used to replace version)
+    // Download URL for Linux ( {0} can be used to replace version )
     linuxDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Linux-64bit.tar.gz"
-    // Download URL for macOS (`{0}` can be used to replace version)
+    // Download URL for macOS ( {0} can be used to replace version )
     macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_macOS-64bit.tar.gz"
     // Operating system family (Windows, macOS or Unix)
     osFamily = io.github.fstaudt.hugo.OsFamily.CURRENT_SYSTEM // default value derived from system property "os.name"
@@ -39,16 +41,15 @@ gradle hugo --command=check
 
 ### hugoServer
 
-Run server for development of Hugo static site.\
-Sources of Hugo site must be stored in `src/main/hugo`.
+Run server for development of Hugo static site.
 
-Task configuration can be overridden according to your needs (default values provided below).
+Task configuration can be overridden according to your needs (example values provided below).
 
 ```kotlin
 tasks.hugoServer {
-    // hostname (and path) to the root
+    // optional baseUrl to access Hugo static site in browser (defaults to baseUrl configured in config.toml)
     baseURL = "http://localhost:1313/documentation/"
-    // additional server arguments (appended to arguments generated from previous properties)
+    // optional additional server arguments (appended to arguments generated from baseUrl)
     args = "--buildDrafts --buildExpired"
 }
 ```
@@ -57,8 +58,7 @@ tasks.hugoServer {
 
 ### hugoBuild
 
-Build Hugo static site for publication.\
-Sources of Hugo site must be stored in `src/main/hugo`. 
+Build Hugo static site for publication.
 
 Task configuration can be overridden according to your needs (default values provided below).
 
@@ -68,8 +68,8 @@ tasks.hugoBuild {
     outputDirectory = File("$buildDir/hugo/publish")
     // additional path in output directory
     publicationPath = ""
-    // additional build arguments (appended to "-d" argument generated from previous properties) 
-    args = "--buildDrafts"
+    // optional additional build arguments (appended to "-d" argument generated from previous properties) 
+    args = ""
 }
 ```
 

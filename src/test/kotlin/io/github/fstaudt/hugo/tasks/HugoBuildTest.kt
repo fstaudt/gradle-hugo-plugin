@@ -48,6 +48,25 @@ class HugoBuildTest {
     }
 
     @Test
+    fun `hugoBuild should build from requested source directory`() {
+        val testProject = testProject()
+        testProject.initBuildFile {
+            appendText("""
+                hugo {
+                  sourceDirectory = "site"
+                }
+            """.trimIndent())
+        }
+        testProject.initHugoResources("site")
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).isFile
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/draft/index.html")).doesNotExist()
+        }
+    }
+
+    @Test
     fun `hugoBuild should fail when site generation fails`() {
         File("$testProject/$SOURCE_DIRECTORY/config.toml").delete()
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_BUILD).also {
@@ -68,6 +87,21 @@ class HugoBuildTest {
         testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
             assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/public/documentation/index.html")).isFile
+        }
+    }
+
+    @Test
+    fun `hugoBuild should build new hugo site in requested output directory`() {
+        testProject.initBuildFile {
+            appendText("""
+                tasks.withType<${HugoBuild::class.java.name}> {
+                  outputDirectory = File("${'$'}{project.projectDir}/output")
+                }
+            """.trimIndent())
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/output/index.html")).isFile
         }
     }
 

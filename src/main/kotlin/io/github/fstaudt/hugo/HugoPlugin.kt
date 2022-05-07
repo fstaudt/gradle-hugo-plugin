@@ -12,6 +12,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.register
+import java.io.File
 
 class HugoPlugin : Plugin<Project> {
 
@@ -37,6 +38,7 @@ class HugoPlugin : Plugin<Project> {
                 group = HUGO
                 description = "Build Hugo static site for publication."
                 extension = pluginExtension
+                sourceDirectory = File("${project.projectDir}/${extension.sourceDirectory}")
                 dependsOn(hugoDownload)
             }
             tasks.register<HugoServer>(HUGO_SERVER) {

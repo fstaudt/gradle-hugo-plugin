@@ -39,9 +39,9 @@ fun TestProject.initBuildFile(customizeBuildFile: File.() -> Unit = {}): File {
     }
 }
 
-fun TestProject.initHugoResources() {
-    File("src/test/resources/hugo-resources").copyRecursively(File("$this/$SOURCE_DIRECTORY"))
-    File("$this/$SOURCE_DIRECTORY/content/_index.md").writeText(name)
+fun TestProject.initHugoResources(sourceDirectory: String = SOURCE_DIRECTORY) {
+    File("src/test/resources/hugo-resources").copyRecursively(File("$this/$sourceDirectory"))
+    File("$this/$sourceDirectory/content/_index.md").writeText(name)
 }
 
 fun TestProject.run(vararg task: String): BuildResult {

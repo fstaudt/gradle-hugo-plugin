@@ -1,7 +1,6 @@
 package io.github.fstaudt.hugo.tasks
 
 import io.github.fstaudt.hugo.HugoPluginExtension
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.CacheableTask
@@ -36,7 +35,7 @@ open class HugoBuild : DefaultTask() {
     @InputDirectory
     @PathSensitive(RELATIVE)
     @IgnoreEmptyDirectories
-    val baseDirectory: File = File("${project.projectDir}/$SOURCE_DIRECTORY")
+    lateinit var sourceDirectory: File
 
     @OutputDirectory
     var outputDirectory: File = File("${project.buildDir}/$PUBLISH_DIRECTORY")
@@ -49,7 +48,7 @@ open class HugoBuild : DefaultTask() {
         outputDirectory.deleteRecursively()
         val arguments = listOf("-d", "${outputDirectory.absolutePath}/$publicationPath") + args.split(' ')
         project.exec {
-            workingDir = baseDirectory
+            workingDir = sourceDirectory
             executable = "${project.buildDir}/$BINARY_DIRECTORY/hugo"
             args = arguments
         }

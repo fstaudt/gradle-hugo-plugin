@@ -4,6 +4,7 @@ import io.github.fstaudt.hugo.HugoPluginExtension.Companion.HUGO_VERSION
 import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
 import io.github.fstaudt.hugo.TestProject
 import io.github.fstaudt.hugo.WITH_BUILD_CACHE
+import io.github.fstaudt.hugo.initBuildFile
 import io.github.fstaudt.hugo.run
 import io.github.fstaudt.hugo.runAndFail
 import io.github.fstaudt.hugo.tasks.HugoCommand.Companion.HUGO_COMMAND
@@ -38,7 +39,22 @@ class HugoCommandTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
             assertThat(File("${testProject}/$SOURCE_DIRECTORY/config.toml")).isFile
+        }
+    }
 
+    @Test
+    fun `hugo should run hugo command in requested source directory`() {
+        testProject.initBuildFile {
+            appendText("""
+                hugo {
+                  sourceDirectory = "site"
+                }
+            """.trimIndent())
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/site/config.toml")).isFile
         }
     }
 
