@@ -12,7 +12,7 @@ Plugin extension is available to override general configuration (default values 
 ```kotlin
 hugo {
     // Hugo version
-    version = "0.93.2"
+    version = "0.98.0"
     // Download URL for Windows (`{0}` can be used to replace version)
     windowsDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Windows-64bit.zip"
     // Download URL for Linux (`{0}` can be used to replace version)
@@ -79,7 +79,7 @@ tasks.hugoBuild {
 
 Download Hugo binary for the current OS (Windows, macOS or Linux).
 
-By default, downloaded version is Hugo extended v0.89.1.\
+By default, downloaded version is Hugo extended v0.98.0.\
 Downloaded version can be configured in [Extension configuration](#extension-configuration).
 
 This task is a dependency of the previous tasks.
