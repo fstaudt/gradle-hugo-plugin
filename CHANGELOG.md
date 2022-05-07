@@ -1,3 +1,9 @@
+## 0.4.0 (2022-05-07)
+
+:rocket: configurable directory for Hugo sources\
+:rocket: bump default hugo version to 0.98.0\
+:construction_worker: bump gradle to 7.4.1
+
 ## 0.3.0 (2022-03-07)
 
 :rocket: hugoServer task to run server for development\

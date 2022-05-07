@@ -92,7 +92,10 @@ plugins {
     java
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.springframework.boot") version "2.5.6"
-    id("io.github.fstaudt.hugo") version "0.1.0"
+    id("io.github.fstaudt.hugo") version "0.4.0"
+}
+hugo {
+    sourceDirectory = "src/main/hugo"
 }
 tasks.hugoBuild {
     publicationPath = "static"
