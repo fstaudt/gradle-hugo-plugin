@@ -84,33 +84,7 @@ Downloaded version can be configured in [Extension configuration](#extension-con
 
 This task is a dependency of the previous tasks.
 
-## Integration with Spring Boot
+## Examples
 
-Hugo gradle plugin can be used in combination with Spring Boot gradle plugin to serve a static website in a Spring Boot application.
-```kotlin
-plugins {
-    java
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.boot") version "2.5.6"
-    id("io.github.fstaudt.hugo") version "0.4.0"
-}
-hugo {
-    sourceDirectory = "src/main/hugo"
-}
-tasks.hugoBuild {
-    publicationPath = "static"
-    sourceSets {
-        main {
-            resources {
-                srcDir(outputDirectory)
-            }
-        }
-    }
-}
-tasks.classes { dependsOn(tasks.hugoBuild) }
-```
-
-Since Hugo pages will be served as static resources, it is required to enable ugly URLs in Hugo configuration.
-```toml
-uglyUrls = true
-```
+- [Generation of standalone Hugo site](https://github.com/fstaudt/gradle-hugo-plugin-examples)
+- [Integration with Spring Boot](https://github.com/fstaudt/gradle-hugo-plugin-examples)
