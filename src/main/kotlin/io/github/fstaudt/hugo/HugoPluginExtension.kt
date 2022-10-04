@@ -16,11 +16,11 @@ import java.text.MessageFormat
 open class HugoPluginExtension {
     companion object {
         val LOGGER: Logger = Logging.getLogger(HugoPluginExtension::class.java)
-        const val HUGO_VERSION = "0.98.0"
+        const val HUGO_VERSION = "0.104.3"
         const val SOURCE_DIRECTORY = "site"
-        const val WINDOWS_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Windows-64bit.zip"
-        const val LINUX_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Linux-64bit.tar.gz"
-        const val MAC_OS_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_macOS-64bit.tar.gz"
+        const val WINDOWS_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_windows-amd64.zip"
+        const val LINUX_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_linux-amd64.tar.gz"
+        const val MAC_OS_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_darwin-universal.tar.gz"
     }
 
     @Input

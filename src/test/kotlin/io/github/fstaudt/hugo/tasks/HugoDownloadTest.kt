@@ -129,7 +129,7 @@ class HugoDownloadTest {
 
     @Test
     fun `hugoDownload should download Hugo binary for requested version`() {
-        val version = "0.93.0"
+        val version = "0.104.2"
         testProject.initBuildFile {
             appendText("""
                 $HUGO {

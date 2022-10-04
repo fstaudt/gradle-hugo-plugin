@@ -1,4 +1,7 @@
-# gradle-hugo-plugin
+# Gradle Hugo plugin
+
+![Build](https://github.com/fstaudt/gradle-hugo-plugin/workflows/Build/badge.svg)
+![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.fstaudt.hugo)
 
 Wrapper for [Hugo](https://gohugo.io) static site generator.
 
@@ -12,15 +15,15 @@ Plugin extension is available to override general configuration (default values 
 ```kotlin
 hugo {
     // Hugo version
-    version = "0.98.0"
+    version = "0.104.3"
     // Relative path to sources of Hugo site in Gradle project
     sourceDirectory = "site"
     // Download URL for Windows ( {0} can be used to replace version )
-    windowsDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Windows-64bit.zip"
+    windowsDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_windows-amd64.zip"
     // Download URL for Linux ( {0} can be used to replace version )
-    linuxDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_Linux-64bit.tar.gz"
+    linuxDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_linux-amd64.tar.gz"
     // Download URL for macOS ( {0} can be used to replace version )
-    macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_macOS-64bit.tar.gz"
+    macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_darwin-universal.tar.gz"
     // Operating system family (Windows, macOS or Unix)
     osFamily = io.github.fstaudt.hugo.OsFamily.CURRENT_SYSTEM // default value derived from system property "os.name"
 }
@@ -79,7 +82,7 @@ tasks.hugoBuild {
 
 Download Hugo binary for the current OS (Windows, macOS or Linux).
 
-By default, downloaded version is Hugo extended v0.98.0.\
+By default, downloaded version is Hugo extended v0.104.3.\
 Downloaded version can be configured in [Extension configuration](#extension-configuration).
 
 This task is a dependency of the previous tasks.

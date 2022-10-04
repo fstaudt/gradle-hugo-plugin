@@ -8,16 +8,15 @@ import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_MAC
 import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_UNIX
 import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS
 import org.assertj.core.api.Assertions.assertThat
-import org.gradle.api.logging.Logger
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class HugoPluginExtensionTest {
     companion object {
-        const val WINDOWS_ARCHIVE = "gohugoio/hugo/releases/download/v0.98.0/hugo_extended_0.98.0_Windows-64bit.zip"
-        const val LINUX_ARCHIVE = "gohugoio/hugo/releases/download/v0.98.0/hugo_extended_0.98.0_Linux-64bit.tar.gz"
-        const val MAC_OS_ARCHIVE = "gohugoio/hugo/releases/download/v0.98.0/hugo_extended_0.98.0_macOS-64bit.tar.gz"
+        const val WINDOWS_ARCHIVE = "gohugoio/hugo/releases/download/v0.104.3/hugo_extended_0.104.3_windows-amd64.zip"
+        const val LINUX_ARCHIVE = "gohugoio/hugo/releases/download/v0.104.3/hugo_extended_0.104.3_linux-amd64.tar.gz"
+        const val MAC_OS_ARCHIVE = "gohugoio/hugo/releases/download/v0.104.3/hugo_extended_0.104.3_darwin-universal.tar.gz"
     }
 
     @BeforeEach
