@@ -15,19 +15,14 @@ import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.DOWNLOAD_DIRECTORY
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.HUGO_DOWNLOAD
 import io.github.fstaudt.hugo.testProject
 import io.mockk.clearAllMocks
-import io.mockk.every
 import io.mockk.mockkStatic
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_MAC
-import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_UNIX
-import org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome.FAILED
 import org.gradle.testkit.runner.TaskOutcome.FROM_CACHE
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -96,20 +91,6 @@ class HugoDownloadTest {
     }
 
     @Test
-    @Disabled("mock of static methods is ineffective with gradle test kit")
-    fun `hugoDownload should log warning and download linux Hugo binary when OS family can't be derived from system property`() {
-        every { Os.isFamily(FAMILY_WINDOWS) }.returns(false)
-        every { Os.isFamily(FAMILY_UNIX) }.returns(false)
-        every { Os.isFamily(FAMILY_MAC) }.returns(false)
-        testProject.run(HUGO_DOWNLOAD).also {
-            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isEqualTo(SUCCESS)
-            assertThat(it.output).contains("Unable to derive OS family from system properties, falling back on UNIX.")
-            assertThat(File("${testProject.buildDir}/$DOWNLOAD_DIRECTORY/$LINUX_ARCHIVE")).isFile
-            assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo")).isFile
-        }
-    }
-
-    @Test
     fun `hugoDownload should fail when download URL is invalid`() {
         testProject.initBuildFile {
             appendText("""
@@ -143,24 +124,6 @@ class HugoDownloadTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isEqualTo(FROM_CACHE)
             assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo.exe")).isFile
             assertThat(File("${testProject.buildDir}/$DOWNLOAD_DIRECTORY")).doesNotExist()
-        }
-    }
-
-    @Test
-    @Disabled("mock of static methods is ineffective with gradle test kit")
-    fun `hugoDownload should download Hugo binary when it was already cached for another OS family`() {
-        every { Os.isFamily(FAMILY_WINDOWS) }.returns(false)
-        every { Os.isFamily(FAMILY_UNIX) }.returns(true)
-        testProject.run(WITH_BUILD_CACHE, HUGO_DOWNLOAD).also {
-            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
-            assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo")).isFile
-        }
-        every { Os.isFamily(FAMILY_WINDOWS) }.returns(true)
-        every { Os.isFamily(FAMILY_UNIX) }.returns(false)
-        File("${testProject.buildDir}/hugo").deleteRecursively()
-        testProject.run(WITH_BUILD_CACHE, HUGO_DOWNLOAD).also {
-            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
-            assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo.exe")).isFile
         }
     }
 
