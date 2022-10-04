@@ -3,7 +3,7 @@ import org.gradle.api.JavaVersion.VERSION_1_8
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "0.17.0"
+    id("com.gradle.plugin-publish") version "1.0.0"
     `maven-publish`
 }
 
@@ -17,7 +17,10 @@ gradlePlugin {
     plugins {
         register(pluginName) {
             id = "$group"
+            displayName = "Gradle Hugo plugin"
+            description = "Build Hugo static sites with Gradle!"
             implementationClass = "$group.HugoPlugin"
+            version = pluginVersion
         }
     }
 }
@@ -25,14 +28,7 @@ gradlePlugin {
 pluginBundle {
     website = "https://github.com/fstaudt/gradle-hugo-plugin"
     vcsUrl = "https://github.com/fstaudt/gradle-hugo-plugin"
-    description = "Build Hugo static sites with Gradle!"
-    (plugins) {
-        pluginName {
-            displayName = "Gradle Hugo plugin"
-            tags = listOf("gohugoio", "wrapper", "documentation", "spring-boot")
-            version = pluginVersion
-        }
-    }
+    tags = listOf("gohugoio", "wrapper", "documentation", "spring-boot")
 }
 
 dependencies {
