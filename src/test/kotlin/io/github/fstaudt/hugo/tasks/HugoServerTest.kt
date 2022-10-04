@@ -49,7 +49,7 @@ class HugoServerTest {
         testProject.initBuildFile {
             appendText("""
                 hugo {
-                  sourceDirectory = "site"
+                  sourceDirectory = "other"
                 }
             """.trimIndent())
         }
