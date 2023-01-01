@@ -1,5 +1,3 @@
-import org.gradle.api.JavaVersion.VERSION_1_8
-
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
@@ -43,10 +41,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-java {
-    targetCompatibility = VERSION_1_8
 }
 
 val gradleWrapperVersion: String by project
