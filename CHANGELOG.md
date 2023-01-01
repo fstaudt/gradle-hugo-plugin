@@ -1,9 +1,15 @@
-## 0.5.0 (2022-10-04)
+## 0.5.1 - Jan 1, 2023
 
-:sparkles: bump default hugo version to 0.104.3\
-:construction_worker: bump gradle to 7.5.1\
-:construction_worker: bumps com.gradle.plugin-publish to 1.0.0
-:construction_worker: GitHub workflows for build, release & dependabot
+- :sparkles: bump default hugo version to 0.109.0
+- :construction_worker: bump gradle to 7.6
+- :construction_worker: bumps com.gradle.plugin-publish to 1.1.0
+
+## 0.5.0 - Oct 4, 2022
+
+- :sparkles: bump default hugo version to 0.104.3
+- :construction_worker: bump gradle to 7.5.1
+- :construction_worker: bumps com.gradle.plugin-publish to 1.0.0
+- :construction_worker: GitHub workflows for build, release & dependabot
 
 ### Breaking changes
 
@@ -19,11 +25,11 @@ hugo {
 }
 ```
 
-## 0.4.0 (2022-05-07)
+## 0.4.0 - May 7, 2022
 
-:sparkles: configurable directory for Hugo sources\
-:sparkles: bump default hugo version to 0.98.0\
-:construction_worker: bump gradle to 7.4.1
+- :sparkles: configurable directory for Hugo sources
+- :sparkles: bump default hugo version to 0.98.0
+- :construction_worker: bump gradle to 7.4.1
 
 ### Breaking changes
 
@@ -36,20 +42,20 @@ hugo {
 }
 ```
 
-## 0.3.0 (2022-03-07)
+## 0.3.0 - Mar 7, 2022
 
-:sparkles: hugoServer task to run server for development\
-:sparkles: bump default hugo version to 0.93.2\
-:bug: consistent configuration in hugoBuild for additional args\
-:construction_worker: bump gradle to 7.4
+- :sparkles: hugoServer task to run server for development
+- :sparkles: bump default hugo version to 0.93.2
+- :bug: consistent configuration in hugoBuild for additional args
+- :construction_worker: bump gradle to 7.4
 
-## 0.2.0 (2021-11-08)
+## 0.2.0 - Nov 08, 2021
 
-:bug: avoid Gradle cache hits on hugoDownload between different operating systems
+- :bug: avoid Gradle cache hits on hugoDownload between different operating systems
 
-## 0.1.0 (2021-11-08)
+## 0.1.0 - Nov 08, 2021
 
-:sparkles: Hugo gradle plugin
-> download Hugo binary with cache\
-> run any Hugo command with downloaded binary\
-> build static site with cache
+- :sparkles: Hugo gradle plugin
+  > - download Hugo binary with cache
+  > - run any Hugo command with downloaded binary
+  > - build static site with cache
