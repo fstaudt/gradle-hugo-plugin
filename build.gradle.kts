@@ -48,3 +48,8 @@ tasks.test {
 java {
     targetCompatibility = VERSION_1_8
 }
+
+val gradleWrapperVersion: String by project
+tasks.wrapper {
+    gradleVersion = gradleWrapperVersion
+}
