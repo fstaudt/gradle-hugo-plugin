@@ -1,14 +1,20 @@
+## 0.6.0 - Mar 26, 2023
+
+- :sparkles: bump default hugo version to 0.111.3
+- :construction_worker: bump gradle to 8.0.2
+- :construction_worker: bump JVM toolchain to 11
+
 ## 0.5.1 - Jan 1, 2023
 
 - :sparkles: bump default hugo version to 0.109.0
 - :construction_worker: bump gradle to 7.6
-- :construction_worker: bumps com.gradle.plugin-publish to 1.1.0
+- :construction_worker: bump com.gradle.plugin-publish to 1.1.0
 
 ## 0.5.0 - Oct 4, 2022
 
 - :sparkles: bump default hugo version to 0.104.3
 - :construction_worker: bump gradle to 7.5.1
-- :construction_worker: bumps com.gradle.plugin-publish to 1.0.0
+- :construction_worker: bump com.gradle.plugin-publish to 1.0.0
 - :construction_worker: GitHub workflows for build, release & dependabot
 
 ### Breaking changes
