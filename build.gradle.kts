@@ -5,6 +5,10 @@ plugins {
     `maven-publish`
 }
 
+kotlin {
+    jvmToolchain(8)
+}
+
 repositories {
     mavenCentral()
 }
@@ -12,6 +16,8 @@ repositories {
 val pluginVersion = "$version"
 val pluginName = "hugoPlugin"
 gradlePlugin {
+    website.set("https://github.com/fstaudt/gradle-hugo-plugin")
+    vcsUrl.set("https://github.com/fstaudt/gradle-hugo-plugin")
     plugins {
         register(pluginName) {
             id = "$group"
@@ -19,14 +25,9 @@ gradlePlugin {
             description = "Build Hugo static sites with Gradle!"
             implementationClass = "$group.HugoPlugin"
             version = pluginVersion
+            tags.set(listOf("gohugoio", "wrapper", "documentation", "spring-boot"))
         }
     }
-}
-
-pluginBundle {
-    website = "https://github.com/fstaudt/gradle-hugo-plugin"
-    vcsUrl = "https://github.com/fstaudt/gradle-hugo-plugin"
-    tags = listOf("gohugoio", "wrapper", "documentation", "spring-boot")
 }
 
 dependencies {
