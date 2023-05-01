@@ -35,7 +35,7 @@ dependencies {
     api(kotlin("gradle-plugin"))
     testImplementation(gradleTestKit())
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.3")
     testImplementation("io.mockk:mockk-jvm:1.13.4")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
