@@ -68,7 +68,7 @@ class HugoBuildTest {
 
     @Test
     fun `hugoBuild should fail when site generation fails`() {
-        File("$testProject/$SOURCE_DIRECTORY/config.toml").delete()
+        File("$testProject/$SOURCE_DIRECTORY/hugo.toml").delete()
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_BUILD).also {
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(FAILED)
             assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).doesNotExist()

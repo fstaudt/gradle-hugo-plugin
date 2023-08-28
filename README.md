@@ -15,7 +15,7 @@ Plugin extension is available to override general configuration (default values 
 ```kotlin
 hugo {
     // Hugo version
-    version = "0.111.3"
+    version = "0.117.0"
     // Relative path to sources of Hugo site in Gradle project
     sourceDirectory = "site"
     // Download URL for Windows ( {0} can be used to replace version )
@@ -82,7 +82,7 @@ tasks.hugoBuild {
 
 Download Hugo binary for the current OS (Windows, macOS or Linux).
 
-By default, downloaded version is Hugo extended v0.111.3.\
+By default, downloaded version is Hugo extended v0.117.0.\
 Downloaded version can be configured in [Extension configuration](#extension-configuration).
 
 This task is a dependency of the previous tasks.

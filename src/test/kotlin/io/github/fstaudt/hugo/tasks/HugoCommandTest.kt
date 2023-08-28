@@ -38,7 +38,7 @@ class HugoCommandTest {
         testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
-            assertThat(File("${testProject}/$SOURCE_DIRECTORY/config.toml")).isFile
+            assertThat(File("${testProject}/$SOURCE_DIRECTORY/hugo.toml")).isFile
         }
     }
 
@@ -54,7 +54,7 @@ class HugoCommandTest {
         testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
-            assertThat(File("${testProject}/site/config.toml")).isFile
+            assertThat(File("${testProject}/site/hugo.toml")).isFile
         }
     }
 
