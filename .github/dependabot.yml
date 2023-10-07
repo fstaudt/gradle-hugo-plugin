@@ -8,8 +8,16 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      gradle-deps:
+        patterns:
+          - "*"
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
