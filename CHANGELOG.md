@@ -1,3 +1,9 @@
+## 0.6.2 - Nov 07, 2023
+
+- :sparkles: bump default hugo version to 0.120.3
+- :construction_worker: bump gradle to 8.4
+- :construction_worker: bump com.gradle.plugin-publish to 1.2.1
+
 ## 0.6.1 - Aug 28, 2023
 
 - :sparkles: bump default hugo version to 0.117.0
