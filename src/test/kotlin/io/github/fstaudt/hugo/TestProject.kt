@@ -58,6 +58,7 @@ private fun TestProject.gradleRunner(vararg task: String): GradleRunner =
             "--info",
             "--stacktrace",
             "--warning-mode=fail",
+            "--configuration-cache",
             *task
         )
         withPluginClasspath()
