@@ -35,6 +35,10 @@ dependencies {
     api(kotlin("gradle-plugin"))
 }
 
+tasks.validatePlugins {
+    enableStricterValidation = true
+}
+
 // Register test suites for selected Gradle versions
 val testedGradleVersions = listOf(
     "8.5",
