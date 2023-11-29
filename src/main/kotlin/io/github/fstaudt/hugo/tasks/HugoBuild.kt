@@ -3,6 +3,7 @@ package io.github.fstaudt.hugo.tasks
 import io.github.fstaudt.hugo.HugoPluginExtension
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.ProjectLayout
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.IgnoreEmptyDirectories
 import org.gradle.api.tasks.Input
@@ -14,10 +15,12 @@ import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import org.gradle.process.ExecOperations
 import java.io.File
+import javax.inject.Inject
 
 @CacheableTask
-open class HugoBuild : DefaultTask() {
+abstract class HugoBuild : DefaultTask() {
 
     companion object {
         const val HUGO_BUILD = "hugoBuild"
@@ -38,18 +41,24 @@ open class HugoBuild : DefaultTask() {
     lateinit var sourceDirectory: File
 
     @OutputDirectory
-    var outputDirectory: File = File("${project.buildDir}/$PUBLISH_DIRECTORY")
+    var outputDirectory: File = layout.buildDirectory.dir(PUBLISH_DIRECTORY).get().asFile
 
     @Input
     var publicationPath: String = ""
+
+    @get:Inject
+    protected abstract val process: ExecOperations
+
+    @get:Inject
+    protected abstract val layout: ProjectLayout
 
     @TaskAction
     fun build() {
         outputDirectory.deleteRecursively()
         val arguments = listOf("-d", "${outputDirectory.absolutePath}/$publicationPath") + args.split(' ')
-        project.exec {
+        process.exec {
             workingDir = sourceDirectory
-            executable = "${project.buildDir}/$BINARY_DIRECTORY/hugo"
+            executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath
             args = arguments
         }
     }

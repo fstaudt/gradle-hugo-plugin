@@ -3,16 +3,18 @@ package io.github.fstaudt.hugo.tasks
 import io.github.fstaudt.hugo.HugoPluginExtension
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.ProjectLayout
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import org.gradle.process.ExecOperations
 import org.gradle.work.DisableCachingByDefault
-import java.io.File
+import javax.inject.Inject
 
 @DisableCachingByDefault(because = "Unknown inputs")
-open class HugoCommand : DefaultTask() {
+abstract class HugoCommand : DefaultTask() {
 
     companion object {
         const val HUGO_COMMAND = "hugo"
@@ -26,13 +28,19 @@ open class HugoCommand : DefaultTask() {
     @Option(description = "Hugo command to execute (defaults to \"new site .\"")
     var command: String = "new site ."
 
+    @get:Inject
+    protected abstract val layout: ProjectLayout
+
+    @get:Inject
+    protected abstract val process: ExecOperations
+
     @TaskAction
     fun run() {
-        val baseDir = File("${project.projectDir}/${extension.sourceDirectory}")
+        val baseDir = layout.projectDirectory.dir(extension.sourceDirectory).asFile
         baseDir.mkdirs()
-        project.exec {
+        process.exec {
             workingDir = baseDir
-            executable = "${project.buildDir}/$BINARY_DIRECTORY/hugo"
+            executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath
             args = command.split(" ")
         }
     }
