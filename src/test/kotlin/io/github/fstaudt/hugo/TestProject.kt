@@ -55,7 +55,12 @@ fun TestProject.runAndFail(vararg task: String): BuildResult {
 private fun TestProject.gradleRunner(vararg task: String): GradleRunner {
     return GradleRunner.create()
         .withProjectDir(this)
-        .withArguments("--info", "--stacktrace", *task)
+        .withArguments(
+            "--info",
+            "--stacktrace",
+            "--warning-mode=fail",
+            *task
+        )
         .withPluginClasspath()
         .withDebug(true)
         .forwardOutput()
