@@ -52,16 +52,19 @@ fun TestProject.runAndFail(vararg task: String): BuildResult {
     return gradleRunner(*task).buildAndFail()
 }
 
-private fun TestProject.gradleRunner(vararg task: String): GradleRunner {
-    return GradleRunner.create()
-        .withProjectDir(this)
-        .withArguments(
+private fun TestProject.gradleRunner(vararg task: String): GradleRunner =
+    GradleRunner.create().withProjectDir(this).apply {
+        withArguments(
             "--info",
             "--stacktrace",
             "--warning-mode=fail",
             *task
         )
-        .withPluginClasspath()
-        .withDebug(true)
-        .forwardOutput()
-}
+        withPluginClasspath()
+        withDebug(true)
+        forwardOutput()
+        gradleVersionSystemProp?.let<String, Unit> { withGradleVersion(it) }
+    }
+
+internal val gradleVersionSystemProp: String?
+    get() = System.getProperty("testGradleVersion")
