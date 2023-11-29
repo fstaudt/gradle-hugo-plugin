@@ -33,15 +33,47 @@ gradlePlugin {
 dependencies {
     compileOnly(gradleKotlinDsl())
     api(kotlin("gradle-plugin"))
-    testImplementation(gradleTestKit())
-    testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testImplementation("io.mockk:mockk-jvm:1.13.8")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-tasks.test {
-    useJUnitPlatform()
+// Register test suites for selected Gradle versions
+val testedGradleVersions = listOf(
+    "8.5",
+    "8.0",
+    "7.0",
+)
+testing {
+    suites {
+        named<JvmTestSuite>("test") {
+            useJUnitJupiter()
+            dependencies {
+                implementation(gradleTestKit())
+                implementation("org.assertj:assertj-core:3.24.2")
+                implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+                implementation("io.mockk:mockk-jvm:1.13.8")
+                runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
+            }
+            targets {
+                val testGradleVersionSysPropName = "testGradleVersion"
+                val wrapperGradleVersion = GradleVersion.current().version
+                named("test") {
+                    testTask {
+                        systemProperty("testGradleVersion", wrapperGradleVersion)
+                    }
+                }
+                fun suiteNameFor(version: String): String {
+                    return "gradle${version.replace('.', '_').replace('+', '_')}Test"
+                }
+                testedGradleVersions.minus(wrapperGradleVersion).forEach { testGradleVersion ->
+                    create(suiteNameFor(testGradleVersion)) {
+                        testTask {
+                            systemProperty(testGradleVersionSysPropName, testGradleVersion)
+                            mustRunAfter(tasks.test)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 val gradleWrapperVersion: String by project
