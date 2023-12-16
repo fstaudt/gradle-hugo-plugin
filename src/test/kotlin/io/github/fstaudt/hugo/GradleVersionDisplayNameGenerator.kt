@@ -8,10 +8,9 @@ import java.lang.reflect.Method
  */
 class GradleVersionDisplayNameGenerator : DisplayNameGenerator.Standard() {
 
-    private val gradleVersion = gradleVersionSystemProp
+    private val gradleVersion = testGradleVersion()
 
     override fun generateDisplayNameForMethod(testClass: Class<*>, testMethod: Method): String {
-        testMethod.name
         return "${testMethod.name} - Gradle $gradleVersion"
     }
 }
