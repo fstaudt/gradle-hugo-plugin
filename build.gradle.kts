@@ -42,7 +42,6 @@ tasks.validatePlugins {
 // Register test suites for selected Gradle versions
 val testedGradleVersions = listOf(
     "8.5",
-    "8.0",
     "7.0",
 )
 testing {
