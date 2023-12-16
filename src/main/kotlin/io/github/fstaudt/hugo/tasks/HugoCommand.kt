@@ -13,7 +13,7 @@ import org.gradle.process.ExecOperations
 import org.gradle.work.DisableCachingByDefault
 import javax.inject.Inject
 
-@DisableCachingByDefault(because = "Unknown inputs")
+@DisableCachingByDefault(because = "generic task with unpredictable outputs")
 abstract class HugoCommand : DefaultTask() {
 
     companion object {
