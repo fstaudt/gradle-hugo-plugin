@@ -65,7 +65,7 @@ testing {
                     }
                 }
                 fun suiteNameFor(version: String): String {
-                    return "gradle${version.replace('.', '_').replace('+', '_')}Test"
+                    return "testWithGradle${version.replace(Regex("\\W"), "_")}"
                 }
                 testedGradleVersions.minus(wrapperGradleVersion).forEach { testGradleVersion ->
                     create(suiteNameFor(testGradleVersion)) {
