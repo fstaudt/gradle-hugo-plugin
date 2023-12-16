@@ -64,8 +64,7 @@ private fun TestProject.gradleRunner(vararg task: String): GradleRunner =
         withPluginClasspath()
         withDebug(true)
         forwardOutput()
-        gradleVersionSystemProp?.let<String, Unit> { withGradleVersion(it) }
+        withGradleVersion(testGradleVersion())
     }
 
-internal val gradleVersionSystemProp: String?
-    get() = System.getProperty("testGradleVersion")
+internal fun testGradleVersion(): String = System.getProperty("testGradleVersion")

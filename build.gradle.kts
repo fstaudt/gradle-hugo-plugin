@@ -60,7 +60,7 @@ testing {
                 val wrapperGradleVersion = GradleVersion.current().version
                 named("test") {
                     testTask {
-                        systemProperty("testGradleVersion", wrapperGradleVersion)
+                        systemProperty(testGradleVersionSysPropName, wrapperGradleVersion)
                     }
                 }
                 fun suiteNameFor(version: String): String {
