@@ -4,8 +4,6 @@
 - :sparkles: bump default hugo version to 0.121.1
 - :bug: disable build cache for tasks with unpredictable outputs
 - :construction_worker: bump gradle to 8.5
-- :construction_worker: bump com.gradle.plugin-publish to 1.2.1
-- :white_check_mark: register test suites for selected gradle versions
 - :white_check_mark: register test suites for selected gradle versions
 
 ## 0.6.2 - Nov 07, 2023
