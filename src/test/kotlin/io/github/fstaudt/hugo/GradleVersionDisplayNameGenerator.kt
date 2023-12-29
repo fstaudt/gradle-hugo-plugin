@@ -7,10 +7,8 @@ import java.lang.reflect.Method
  * JUnit test name generator that appends the tested Gradle version to all test names.
  */
 class GradleVersionDisplayNameGenerator : DisplayNameGenerator.Standard() {
-
-    private val gradleVersion = testGradleVersion()
-
+    private val displayNameSuffix = displayNameSuffix()
     override fun generateDisplayNameForMethod(testClass: Class<*>, testMethod: Method): String {
-        return "${testMethod.name} - Gradle $gradleVersion"
+        return "${testMethod.name}$displayNameSuffix"
     }
 }

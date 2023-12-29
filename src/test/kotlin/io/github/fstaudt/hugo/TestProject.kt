@@ -68,3 +68,4 @@ private fun TestProject.gradleRunner(vararg task: String): GradleRunner =
     }
 
 internal fun testGradleVersion(): String = System.getProperty("testGradleVersion")
+internal fun displayNameSuffix(): String = System.getProperty("displayNameSuffix")

@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
@@ -39,11 +41,10 @@ tasks.validatePlugins {
     enableStricterValidation = true
 }
 
-// Register test suites for selected Gradle versions
-val testedGradleVersions = listOf(
-    "8.5",
-    "7.0",
-)
+val currentGradleVersion: String = GradleVersion.current().version
+val additionalGradleVersions = listOf("7.6.3")
+val testGradleVersion = "testGradleVersion"
+val displayNameSuffix = "displayNameSuffix"
 testing {
     suites {
         named<JvmTestSuite>("test") {
@@ -56,20 +57,15 @@ testing {
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
             }
             targets {
-                val testGradleVersionSysPropName = "testGradleVersion"
-                val wrapperGradleVersion = GradleVersion.current().version
                 named("test") {
                     testTask {
-                        systemProperty(testGradleVersionSysPropName, wrapperGradleVersion)
+                        systemProperties(testGradleVersion to currentGradleVersion, displayNameSuffix to "")
                     }
                 }
-                fun suiteNameFor(version: String): String {
-                    return "testWithGradle${version.replace(Regex("\\W"), "_")}"
-                }
-                testedGradleVersions.minus(wrapperGradleVersion).forEach { testGradleVersion ->
-                    create(suiteNameFor(testGradleVersion)) {
+                additionalGradleVersions.forEach { version ->
+                    create("testWithGradle${version.replace(Regex("\\W"), "_")}") {
                         testTask {
-                            systemProperty(testGradleVersionSysPropName, testGradleVersion)
+                            systemProperties(testGradleVersion to version, displayNameSuffix to " - Gradle $version")
                             mustRunAfter(tasks.test)
                         }
                     }
