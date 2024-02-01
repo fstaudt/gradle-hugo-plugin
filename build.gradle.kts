@@ -53,7 +53,7 @@ testing {
                 implementation(gradleTestKit())
                 implementation("org.assertj:assertj-core:3.24.2")
                 implementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
-                implementation("io.mockk:mockk-jvm:1.13.8")
+                implementation("io.mockk:mockk-jvm:1.13.9")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
             }
             targets {
