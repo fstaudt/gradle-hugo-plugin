@@ -12,6 +12,8 @@ updates:
       gradle-deps:
         patterns:
           - "*"
+    assignees:
+      - "fstaudt"
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -21,3 +23,6 @@ updates:
       github-actions:
         patterns:
           - "*"
+    open-pull-requests-limit: 1
+    assignees:
+      - "fstaudt"
