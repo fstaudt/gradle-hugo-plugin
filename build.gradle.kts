@@ -51,9 +51,9 @@ testing {
             useJUnitJupiter()
             dependencies {
                 implementation(gradleTestKit())
-                implementation("org.assertj:assertj-core:3.25.2")
+                implementation("org.assertj:assertj-core:3.25.3")
                 implementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-                implementation("io.mockk:mockk-jvm:1.13.9")
+                implementation("io.mockk:mockk-jvm:1.13.10")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
             }
             targets {
