@@ -16,7 +16,7 @@ import java.text.MessageFormat
 open class HugoPluginExtension {
     companion object {
         val LOGGER: Logger = Logging.getLogger(HugoPluginExtension::class.java)
-        const val HUGO_VERSION = "0.121.1"
+        const val HUGO_VERSION = "0.124.1"
         const val SOURCE_DIRECTORY = "site"
         const val WINDOWS_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_windows-amd64.zip"
         const val LINUX_DOWNLOAD_URL = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_linux-amd64.tar.gz"
