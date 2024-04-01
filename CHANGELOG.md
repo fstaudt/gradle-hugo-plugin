@@ -1,3 +1,9 @@
+## 0.7.1 - Apr 01, 2024
+
+- :sparkles: bump default Hugo version to 0.124.1
+- :construction_worker: bump Gradle to 8.7
+- :white_check_mark: test against Gradle 7.6.4 and 8.0 
+
 ## 0.7.0 - Dec 29, 2023
 
 - :sparkles: make plugin compatible with configuration cache
