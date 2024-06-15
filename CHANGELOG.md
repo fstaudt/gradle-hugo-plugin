@@ -1,3 +1,13 @@
+## 0.8.0 - Jun 15, 2024
+
+- :sparkles: bump default Hugo version to 0.127.0
+- :construction_worker: bump Java from 11 to 17
+- :construction_worker: bump Gradle to 8.8
+
+### Breaking changes
+
+Gradle plugin requires at least Java 17.
+
 ## 0.7.1 - Apr 01, 2024
 
 - :sparkles: bump default Hugo version to 0.124.1

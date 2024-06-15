@@ -3,6 +3,9 @@
 ![Build](https://github.com/fstaudt/gradle-hugo-plugin/workflows/Build/badge.svg)
 ![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.fstaudt.hugo)
 
+![Minimal Java version](https://img.shields.io/badge/Minimal_Java_version-17-blue)
+![Minimal Gradle version](https://img.shields.io/badge/Minimal_Gradle_version-7.6.4-blue)
+
 Wrapper for [Hugo](https://gohugo.io) static site generator.
 
 The plugin provides a declarative approach for the Hugo binary used to build the static site.\
