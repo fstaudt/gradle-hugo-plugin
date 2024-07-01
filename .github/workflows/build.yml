@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Fetch Sources"
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: "Validate Gradle Wrapper"
-        uses: gradle/actions/wrapper-validation@v3.4.1
+        uses: gradle/actions/wrapper-validation@v3.4.2
       - name: "Setup Java 17"
         uses: actions/setup-java@v4.2.1
         with:
           distribution: temurin
           java-version: 17
       - name: "Setup gradle"
-        uses: gradle/actions/setup-gradle@v3.4.1
+        uses: gradle/actions/setup-gradle@v3.4.2
         with:
           gradle-home-cache-cleanup: true
       - name: "Run Tests"
@@ -42,16 +42,16 @@ jobs:
           - os: macos-latest
     steps:
       - name: "Fetch Sources"
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: "Validate Gradle Wrapper"
-        uses: gradle/actions/wrapper-validation@v3.4.1
+        uses: gradle/actions/wrapper-validation@v3.4.2
       - name: "Setup Java 17"
         uses: actions/setup-java@v4.2.1
         with:
           distribution: temurin
           java-version: 17
       - name: "Setup gradle"
-        uses: gradle/actions/setup-gradle@v3.4.1
+        uses: gradle/actions/setup-gradle@v3.4.2
         with:
           gradle-home-cache-cleanup: true
       - name: "Run Tests"
