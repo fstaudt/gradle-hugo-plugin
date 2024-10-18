@@ -18,7 +18,7 @@ Plugin extension is available to override general configuration (default values 
 ```kotlin
 hugo {
     // Hugo version
-    version = "0.127.0"
+    version = "0.136.2"
     // Relative path to sources of Hugo site in Gradle project
     sourceDirectory = "site"
     // Download URL for Windows ( {0} can be used to replace version )

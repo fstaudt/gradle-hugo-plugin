@@ -34,9 +34,9 @@ import java.io.File
 
 class HugoDownloadTest {
     companion object {
-        const val WINDOWS_ARCHIVE = "$HUGO_PATH/v0.127.0/hugo_extended_0.127.0_windows-amd64.zip"
-        const val LINUX_ARCHIVE = "$HUGO_PATH/v0.127.0/hugo_extended_0.127.0_linux-amd64.tar.gz"
-        const val MAC_OS_ARCHIVE = "$HUGO_PATH/v0.127.0/hugo_extended_0.127.0_darwin-universal.tar.gz"
+        const val WINDOWS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_windows-amd64.zip"
+        const val LINUX_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_linux-amd64.tar.gz"
+        const val MAC_OS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_darwin-universal.tar.gz"
 
         private lateinit var wiremock: WireMockServer
 
@@ -55,9 +55,9 @@ class HugoDownloadTest {
         }
 
         private fun WireMockServer.stubForHugoBinaries() {
-            stubForHugo("v0.127.0/hugo_extended_0.127.0_darwin-universal.tar.gz")
-            stubForHugo("v0.127.0/hugo_extended_0.127.0_linux-amd64.tar.gz")
-            stubForHugo("v0.127.0/hugo_extended_0.127.0_windows-amd64.zip")
+            stubForHugo("v0.136.2/hugo_extended_0.136.2_darwin-universal.tar.gz")
+            stubForHugo("v0.136.2/hugo_extended_0.136.2_linux-amd64.tar.gz")
+            stubForHugo("v0.136.2/hugo_extended_0.136.2_windows-amd64.zip")
             stubForHugo("v0.104.2/hugo_extended_0.104.2_windows-amd64.zip")
         }
 
