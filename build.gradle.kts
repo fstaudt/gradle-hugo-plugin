@@ -54,6 +54,7 @@ testing {
                 implementation("org.assertj:assertj-core:3.26.3")
                 implementation("org.junit.jupiter:junit-jupiter-api:5.11.0")
                 implementation("io.mockk:mockk-jvm:1.13.12")
+                implementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
             }
             targets {
