@@ -1,6 +1,6 @@
 package io.github.fstaudt.hugo
 
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
+import io.github.fstaudt.hugo.HugoPlugin.Companion.SOURCE_DIRECTORY
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import java.io.File
@@ -30,11 +30,13 @@ private fun TestProject.initSettingsFile(): File {
 
 fun TestProject.initBuildFile(customizeBuildFile: File.() -> Unit = {}): File {
     return File(this, "build.gradle.kts").apply {
-        writeText("""
+        writeText(
+            """
                 plugins {
                   id("io.github.fstaudt.hugo")
                 }
-            """.trimIndent())
+            """.trimIndent()
+        )
         customizeBuildFile()
     }
 }

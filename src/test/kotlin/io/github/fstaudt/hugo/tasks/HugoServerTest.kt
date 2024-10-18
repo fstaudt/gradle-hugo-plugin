@@ -1,12 +1,18 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.*
+import io.github.fstaudt.hugo.TestProject
+import io.github.fstaudt.hugo.WITH_BUILD_CACHE
+import io.github.fstaudt.hugo.conditions.ForGradleVersion
+import io.github.fstaudt.hugo.initBuildFile
+import io.github.fstaudt.hugo.initHugoResources
+import io.github.fstaudt.hugo.runAndFail
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.HUGO_DOWNLOAD
 import io.github.fstaudt.hugo.tasks.HugoServer.Companion.HUGO_SERVER
+import io.github.fstaudt.hugo.testProject
 import org.assertj.core.api.Assertions.assertThat
+import org.gradle.testkit.runner.TaskOutcome.FAILED
 import org.gradle.testkit.runner.TaskOutcome.FROM_CACHE
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
-import org.gradle.testkit.runner.TaskOutcome.FAILED
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -37,7 +43,12 @@ class HugoServerTest {
 
     @Test
     fun `hugo should serve hugo site in source directory on requested baseUrl`() {
-        testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--baseURL=http://localhost:1313/documentation", "--args=--forceFailure").also {
+        testProject.runAndFail(
+            WITH_BUILD_CACHE,
+            HUGO_SERVER,
+            "--baseURL=http://localhost:1313/documentation",
+            "--args=--forceFailure"
+        ).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
             assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
@@ -47,11 +58,32 @@ class HugoServerTest {
     @Test
     fun `hugo should serve hugo site in requested source directory`() {
         testProject.initBuildFile {
-            appendText("""
+            appendText(
+                """
+                hugo {
+                  sourceDirectory.set("other")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
+            assertThat(it.output).contains("Error: command error: Unable to locate config file or config directory.")
+        }
+    }
+
+    @Test
+    @ForGradleVersion(equalToOrAfter = "8.2")
+    fun `hugo should serve hugo site in requested source directory set by assignment`() {
+        testProject.initBuildFile {
+            appendText(
+                """
                 hugo {
                   sourceDirectory = "other"
                 }
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)

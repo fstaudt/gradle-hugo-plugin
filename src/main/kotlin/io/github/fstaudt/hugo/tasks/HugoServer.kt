@@ -1,11 +1,10 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.HugoPluginExtension
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
@@ -20,18 +19,21 @@ abstract class HugoServer : DefaultTask() {
         const val HUGO_SERVER = "hugoServer"
     }
 
-    @Nested
-    lateinit var extension: HugoPluginExtension
+    @get:Input
+    abstract val sourceDirectory: Property<String>
 
-    @Input
-    @Optional
-    @Option(description = "Hostname (and path) to the root, e.g. http://localhost:1313/documentation/")
-    var baseURL: String? = null
+    @get:Input
+    @get:Optional
+    @get:Option(
+        option = "baseURL",
+        description = "Hostname (and path) to the root, e.g. http://localhost:1313/documentation/"
+    )
+    abstract val baseURL: Property<String>
 
-    @Input
-    @Optional
-    @Option(description = "Additional arguments for Hugo server command (defaults to \"\")")
-    var args: String = ""
+    @get:Input
+    @get:Optional
+    @get:Option(option = "args", description = "Additional arguments for Hugo server command (defaults to \"\")")
+    abstract val args: Property<String>
 
     @get:Inject
     protected abstract val layout: ProjectLayout
@@ -41,11 +43,11 @@ abstract class HugoServer : DefaultTask() {
 
     @TaskAction
     fun run() {
-        val baseDir = layout.projectDirectory.dir(extension.sourceDirectory).asFile
+        val baseDir = layout.projectDirectory.dir(sourceDirectory.get()).asFile
         baseDir.mkdirs()
         val arguments = listOf("serve") +
-                (baseURL?.let { listOf("--baseURL", it) } ?: emptyList()) +
-                args.split(' ')
+                (baseURL.get().takeIf { it.isNotBlank() }?.let { listOf("--baseURL", it) } ?: emptyList()) +
+                args.get().split(' ')
         process.exec {
             workingDir = baseDir
             executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath

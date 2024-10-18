@@ -1,9 +1,10 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
+import io.github.fstaudt.hugo.HugoPlugin.Companion.SOURCE_DIRECTORY
 import io.github.fstaudt.hugo.TestProject
 import io.github.fstaudt.hugo.WITH_BUILD_CACHE
 import io.github.fstaudt.hugo.buildDir
+import io.github.fstaudt.hugo.conditions.ForGradleVersion
 import io.github.fstaudt.hugo.initBuildFile
 import io.github.fstaudt.hugo.initHugoResources
 import io.github.fstaudt.hugo.run
@@ -51,11 +52,35 @@ class HugoBuildTest {
     fun `hugoBuild should build from requested source directory`() {
         val testProject = testProject()
         testProject.initBuildFile {
-            appendText("""
+            appendText(
+                """
+                hugo {
+                  sourceDirectory.set("site")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.initHugoResources("site")
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/index.html")).isFile
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/draft/index.html")).doesNotExist()
+        }
+    }
+
+    @Test
+    @ForGradleVersion(equalToOrAfter = "8.2")
+    fun `hugoBuild should build from requested source directory set by assignment`() {
+        val testProject = testProject()
+        testProject.initBuildFile {
+            appendText(
+                """
                 hugo {
                   sourceDirectory = "site"
                 }
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
         testProject.initHugoResources("site")
         testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
@@ -78,11 +103,31 @@ class HugoBuildTest {
     @Test
     fun `hugoBuild should build new hugo site in publication path`() {
         testProject.initBuildFile {
-            appendText("""
+            appendText(
+                """
+                tasks.withType<${HugoBuild::class.java.name}> {
+                  publicationPath.set("public/documentation")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/public/documentation/index.html")).isFile
+        }
+    }
+
+    @Test
+    @ForGradleVersion(equalToOrAfter = "8.2")
+    fun `hugoBuild should build new hugo site in publication path set by assignment`() {
+        testProject.initBuildFile {
+            appendText(
+                """
                 tasks.withType<${HugoBuild::class.java.name}> {
                   publicationPath = "public/documentation"
                 }
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
         testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
@@ -93,11 +138,31 @@ class HugoBuildTest {
     @Test
     fun `hugoBuild should build new hugo site in requested output directory`() {
         testProject.initBuildFile {
-            appendText("""
+            appendText(
+                """
+                tasks.withType<${HugoBuild::class.java.name}> {
+                  outputDirectory.set(File("${'$'}{project.projectDir}/output"))
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/output/index.html")).isFile
+        }
+    }
+
+    @Test
+    @ForGradleVersion(equalToOrAfter = "8.2")
+    fun `hugoBuild should build new hugo site in requested output directory set by assignment`() {
+        testProject.initBuildFile {
+            appendText(
+                """
                 tasks.withType<${HugoBuild::class.java.name}> {
                   outputDirectory = File("${'$'}{project.projectDir}/output")
                 }
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
         testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
             assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)

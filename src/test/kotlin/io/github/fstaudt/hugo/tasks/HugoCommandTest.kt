@@ -1,9 +1,10 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.HUGO_VERSION
-import io.github.fstaudt.hugo.HugoPluginExtension.Companion.SOURCE_DIRECTORY
+import io.github.fstaudt.hugo.HugoPlugin.Companion.HUGO_VERSION
+import io.github.fstaudt.hugo.HugoPlugin.Companion.SOURCE_DIRECTORY
 import io.github.fstaudt.hugo.TestProject
 import io.github.fstaudt.hugo.WITH_BUILD_CACHE
+import io.github.fstaudt.hugo.conditions.ForGradleVersion
 import io.github.fstaudt.hugo.initBuildFile
 import io.github.fstaudt.hugo.run
 import io.github.fstaudt.hugo.runAndFail
@@ -45,11 +46,32 @@ class HugoCommandTest {
     @Test
     fun `hugo should run hugo command in requested source directory`() {
         testProject.initBuildFile {
-            appendText("""
+            appendText(
+                """
+                hugo {
+                  sourceDirectory.set("site")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/site/hugo.toml")).isFile
+        }
+    }
+
+    @Test
+    @ForGradleVersion(equalToOrAfter = "8.2")
+    fun `hugo should run hugo command in requested source directory set by assignment`() {
+        testProject.initBuildFile {
+            appendText(
+                """
                 hugo {
                   sourceDirectory = "site"
                 }
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
         testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)

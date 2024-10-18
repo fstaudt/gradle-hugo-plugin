@@ -1,11 +1,10 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.HugoPluginExtension
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
@@ -20,13 +19,13 @@ abstract class HugoCommand : DefaultTask() {
         const val HUGO_COMMAND = "hugo"
     }
 
-    @Nested
-    lateinit var extension: HugoPluginExtension
+    @get:Input
+    abstract val sourceDirectory: Property<String>
 
-    @Input
-    @Optional
-    @Option(description = "Hugo command to execute (defaults to \"new site .\"")
-    var command: String = "new site ."
+    @get:Input
+    @get:Optional
+    @get:Option(option = "command", description = "Hugo command to execute (defaults to \"new site .\"")
+    abstract val command: Property<String>
 
     @get:Inject
     protected abstract val layout: ProjectLayout
@@ -36,12 +35,12 @@ abstract class HugoCommand : DefaultTask() {
 
     @TaskAction
     fun run() {
-        val baseDir = layout.projectDirectory.dir(extension.sourceDirectory).asFile
+        val baseDir = layout.projectDirectory.dir(sourceDirectory.get()).asFile
         baseDir.mkdirs()
         process.exec {
             workingDir = baseDir
             executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath
-            args = command.split(" ")
+            args = command.get().split(" ")
         }
     }
 }
