@@ -1,3 +1,28 @@
+## 0.9.0 - Oct 19, 2024
+
+- :sparkles: reuse downloaded archive when it is still available
+- :sparkles: bump default Hugo version to 0.136.2
+- :sparkles: use Gradle provider API in all tasks
+- :sparkles: reuse download task output to configure task dependencies lazily
+- :construction_worker: bump Gradle to 8.10.2
+
+### Breaking changes
+
+Use of Gradle provider API in all tasks enforce usage of setters for properties for Gradle versions below 8.2.\
+For Gradle versions above or equal to 8.2, tasks and extension properties can still be configured by assignment.\
+More info: https://docs.gradle.org/current/userguide/lazy_configuration.html#lazy_properties
+
+```kotlin
+hugo {
+    // version = "0.93.0"   // previously used - still OK for Gradle version above or equal to 8.2 
+    version.set("0.93.0")   // required setter for Gradle version below 8.2
+}
+tasks.hugoBuild {
+    // outputDirectory = File("$buildDir/hugo/publish")   // previously used - still OK for Gradle version above or equal to 8.2
+    outputDirectory.set(File("$buildDir/hugo/publish"))   // required setter for Gradle version below 8.2
+}
+```
+
 ## 0.8.0 - Jun 15, 2024
 
 - :sparkles: bump default Hugo version to 0.127.0
@@ -12,7 +37,7 @@ Gradle plugin requires at least Java 17.
 
 - :sparkles: bump default Hugo version to 0.124.1
 - :construction_worker: bump Gradle to 8.7
-- :white_check_mark: test against Gradle 7.6.4 and 8.0 
+- :white_check_mark: test against Gradle 7.6.4 and 8.0
 
 ## 0.7.0 - Dec 29, 2023
 

@@ -85,7 +85,7 @@ tasks.hugoBuild {
 
 Download Hugo binary for the current OS (Windows, macOS or Linux).
 
-By default, downloaded version is Hugo extended v0.117.0.\
+By default, downloaded version is Hugo extended v0.136.2.\
 Downloaded version can be configured in [Extension configuration](#extension-configuration).
 
 This task is a dependency of the previous tasks.
