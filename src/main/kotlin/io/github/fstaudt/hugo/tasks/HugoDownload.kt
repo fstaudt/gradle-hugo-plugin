@@ -77,10 +77,14 @@ abstract class HugoDownload : DefaultTask() {
         val url = downloadUrl()
         return layout.buildDirectory.file("$DOWNLOAD_DIRECTORY/${url.file}").get().asFile.also {
             it.ensureParentDirsCreated()
-            logger.info("Downloading Hugo binary from $url")
-            url.openStream().use { input ->
-                FileOutputStream(it).use { output ->
-                    input.copyTo(output)
+            if (it.exists()) {
+                logger.info("Archive already exists. Skipping download")
+            } else {
+                logger.info("Downloading Hugo binary from $url")
+                url.openStream().use { input ->
+                    FileOutputStream(it).use { output ->
+                        input.copyTo(output)
+                    }
                 }
             }
         }

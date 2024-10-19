@@ -25,6 +25,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome.FAILED
 import org.gradle.testkit.runner.TaskOutcome.FROM_CACHE
 import org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
@@ -34,6 +35,7 @@ import java.io.File
 
 class HugoDownloadTest {
     companion object {
+        private const val TEST_HUGO_BINARIES_DIRECTORY = "src/test/resources/hugo-binaries"
         const val WINDOWS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_windows-amd64.zip"
         const val LINUX_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_linux-amd64.tar.gz"
         const val MAC_OS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_darwin-universal.tar.gz"
@@ -55,15 +57,15 @@ class HugoDownloadTest {
         }
 
         private fun WireMockServer.stubForHugoBinaries() {
-            stubForHugo("v0.136.2/hugo_extended_0.136.2_darwin-universal.tar.gz")
-            stubForHugo("v0.136.2/hugo_extended_0.136.2_linux-amd64.tar.gz")
-            stubForHugo("v0.136.2/hugo_extended_0.136.2_windows-amd64.zip")
-            stubForHugo("v0.104.2/hugo_extended_0.104.2_windows-amd64.zip")
+            stubForHugo(WINDOWS_ARCHIVE)
+            stubForHugo(LINUX_ARCHIVE)
+            stubForHugo(MAC_OS_ARCHIVE)
+            stubForHugo("$HUGO_PATH/v0.104.2/hugo_extended_0.104.2_windows-amd64.zip")
         }
 
         private fun WireMockServer.stubForHugo(path: String) {
-            val binary = File("src/test/resources/hugo-binaries/$path").readBytes()
-            stubFor(get("/$HUGO_PATH/$path").willReturn(ok().withResponseBody(Body(binary))))
+            val binary = File("$TEST_HUGO_BINARIES_DIRECTORY/$path").readBytes()
+            stubFor(get("/$path").willReturn(ok().withResponseBody(Body(binary))))
         }
 
         private fun setDownloadUrlsForWiremock(): String {
@@ -275,6 +277,50 @@ class HugoDownloadTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isEqualTo(FROM_CACHE)
             assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo.exe")).isFile
             assertThat(File("${testProject.buildDir}/$DOWNLOAD_DIRECTORY")).doesNotExist()
+        }
+    }
+
+    @Test
+    fun `hugoDownload should be up-to-date when it was already executed`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                $HUGO {
+                  ${setDownloadUrlsForWiremock()}
+                  osFamily.set(io.github.fstaudt.hugo.OsFamily.WINDOWS)
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_DOWNLOAD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+        }
+        File("${testProject.buildDir}/hugo/download").deleteRecursively()
+        testProject.run(WITH_BUILD_CACHE, HUGO_DOWNLOAD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isEqualTo(UP_TO_DATE)
+            assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo.exe")).isFile
+            assertThat(File("${testProject.buildDir}/$DOWNLOAD_DIRECTORY")).doesNotExist()
+        }
+    }
+
+    @Test
+    fun `hugoDownload should skip download when archive is already downloaded`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                $HUGO {
+                  ${setDownloadUrlsForWiremock()}
+                  osFamily.set(io.github.fstaudt.hugo.OsFamily.WINDOWS)
+                }
+            """.trimIndent()
+            )
+        }
+        File("$TEST_HUGO_BINARIES_DIRECTORY/$WINDOWS_ARCHIVE")
+            .copyTo(File("${testProject.buildDir}/$DOWNLOAD_DIRECTORY/$WINDOWS_ARCHIVE"))
+        testProject.run(HUGO_DOWNLOAD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$BINARY_DIRECTORY/hugo.exe")).isFile
+            assertThat(it.output).contains("Archive already exists. Skipping download")
         }
     }
 
