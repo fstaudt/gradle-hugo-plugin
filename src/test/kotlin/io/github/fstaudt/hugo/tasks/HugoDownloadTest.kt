@@ -119,7 +119,7 @@ class HugoDownloadTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoDownload should download Windows Hugo binary when download URL is set by assignment`() {
         testProject.initBuildFile {
             appendText(
@@ -158,7 +158,7 @@ class HugoDownloadTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoDownload should download linux Hugo binary when download URL is set by assignment`() {
         testProject.initBuildFile {
             appendText(
@@ -197,7 +197,7 @@ class HugoDownloadTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoDownload should download macOS Hugo binary when download URL is set by assignment`() {
         testProject.initBuildFile {
             appendText(
@@ -217,7 +217,7 @@ class HugoDownloadTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoDownload should download Windows Hugo binary when OS family is set by assignment`() {
         testProject.initBuildFile {
             appendText(
@@ -300,7 +300,7 @@ class HugoDownloadTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoDownload should download Hugo binary for requested version set by assignment`() {
         val version = "0.104.2"
         testProject.initBuildFile {

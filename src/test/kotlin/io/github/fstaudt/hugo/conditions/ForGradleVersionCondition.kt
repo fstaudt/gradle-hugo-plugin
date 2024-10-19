@@ -10,14 +10,14 @@ class ForGradleVersionCondition : ExecutionCondition {
     override fun evaluateExecutionCondition(context: ExtensionContext): ConditionEvaluationResult {
         val annotation = context.element.get().getAnnotation(ForGradleVersion::class.java)
         val gradleVersion = testGradleVersion().toVersion()
-        annotation.before.takeIf { it.isNotBlank() }?.toVersion()?.let { before ->
-            if (before < gradleVersion) {
-                return ConditionEvaluationResult.disabled("Version $gradleVersion is not before $before")
+        annotation.below.takeIf { it.isNotBlank() }?.toVersion()?.let { below ->
+            if (below < gradleVersion) {
+                return ConditionEvaluationResult.disabled("Version $gradleVersion is not before $below")
             }
         }
-        annotation.equalToOrAfter.takeIf { it.isNotBlank() }?.toVersion()?.let { equalToOrAfter ->
-            if (gradleVersion <= equalToOrAfter) {
-                return ConditionEvaluationResult.disabled("Version $gradleVersion is not after or equal to $equalToOrAfter")
+        annotation.aboveOrEqualTo.takeIf { it.isNotBlank() }?.toVersion()?.let { equalToOrAbove ->
+            if (gradleVersion <= equalToOrAbove) {
+                return ConditionEvaluationResult.disabled("Version $gradleVersion is not after or equal to $equalToOrAbove")
             }
         }
         return ConditionEvaluationResult.enabled("")

@@ -62,7 +62,7 @@ class HugoCommandTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugo should run hugo command in requested source directory set by assignment`() {
         testProject.initBuildFile {
             appendText(

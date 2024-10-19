@@ -7,4 +7,4 @@ import java.lang.annotation.Inherited
 @Retention(AnnotationRetention.RUNTIME)
 @ExtendWith(ForGradleVersionCondition::class)
 @Inherited
-annotation class ForGradleVersion(val before: String = "", val equalToOrAfter: String = "")
+annotation class ForGradleVersion(val below: String = "", val aboveOrEqualTo: String = "")

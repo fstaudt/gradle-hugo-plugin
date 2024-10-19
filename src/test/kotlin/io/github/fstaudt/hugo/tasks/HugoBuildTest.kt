@@ -70,7 +70,7 @@ class HugoBuildTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoBuild should build from requested source directory set by assignment`() {
         val testProject = testProject()
         testProject.initBuildFile {
@@ -118,7 +118,7 @@ class HugoBuildTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoBuild should build new hugo site in publication path set by assignment`() {
         testProject.initBuildFile {
             appendText(
@@ -153,7 +153,7 @@ class HugoBuildTest {
     }
 
     @Test
-    @ForGradleVersion(equalToOrAfter = "8.2")
+    @ForGradleVersion(aboveOrEqualTo = "8.2")
     fun `hugoBuild should build new hugo site in requested output directory set by assignment`() {
         testProject.initBuildFile {
             appendText(
