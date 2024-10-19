@@ -1,7 +1,7 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
@@ -36,6 +36,10 @@ abstract class HugoBuild : DefaultTask() {
     @get:IgnoreEmptyDirectories
     abstract val sourceDirectory: Property<File>
 
+    @get:InputDirectory
+    @get:PathSensitive(RELATIVE)
+    abstract val hugoBinaryDirectory: DirectoryProperty
+
     @get:Input
     abstract val publicationPath: Property<String>
 
@@ -55,7 +59,7 @@ abstract class HugoBuild : DefaultTask() {
             listOf("-d", "${outputDirectory.get().absolutePath}/${publicationPath.get()}") + args.get().split(' ')
         process.exec {
             workingDir = sourceDirectory.get()
-            executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath
+            executable = hugoBinaryDirectory.file("hugo").get().asFile.absolutePath
             args = arguments
         }
     }

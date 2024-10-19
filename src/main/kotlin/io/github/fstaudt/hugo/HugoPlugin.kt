@@ -9,6 +9,7 @@ import io.github.fstaudt.hugo.tasks.HugoBuild.Companion.PUBLISH_DIRECTORY
 import io.github.fstaudt.hugo.tasks.HugoCommand
 import io.github.fstaudt.hugo.tasks.HugoCommand.Companion.HUGO_COMMAND
 import io.github.fstaudt.hugo.tasks.HugoDownload
+import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.HUGO_DOWNLOAD
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.LINUX_DOWNLOAD_URL
 import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.MAC_OS_DOWNLOAD_URL
@@ -54,30 +55,31 @@ class HugoPlugin : Plugin<Project> {
                 linuxDownloadUrl.set(pluginExtension.linuxDownloadUrl)
                 macOSDownloadUrl.set(pluginExtension.macOSDownloadUrl)
                 osFamily.set(pluginExtension.osFamily)
+                hugoBinaryDirectory.set(layout.buildDirectory.dir(BINARY_DIRECTORY))
             }
             tasks.register<HugoCommand>(HUGO_COMMAND) {
                 group = HUGO
                 description = "Execute any Hugo command (e.g. new, gen ...)."
-                sourceDirectory.convention(pluginExtension.sourceDirectory)
+                sourceDirectory.set(pluginExtension.sourceDirectory)
+                hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 command.convention("new site .")
-                dependsOn(hugoDownload)
             }
             tasks.register<HugoBuild>(HUGO_BUILD) {
                 group = HUGO
                 description = "Build Hugo static site for publication."
                 args.convention("")
-                sourceDirectory.convention(pluginExtension.sourceDirectory.map { File(projectDir, it) })
+                sourceDirectory.set(pluginExtension.sourceDirectory.map { File(projectDir, it) })
+                hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 publicationPath.convention("")
-                outputDirectory.convention(layout.buildDirectory.dir(PUBLISH_DIRECTORY).map { it.asFile })
-                dependsOn(hugoDownload)
+                outputDirectory.set(layout.buildDirectory.dir(PUBLISH_DIRECTORY).map { it.asFile })
             }
             tasks.register<HugoServer>(HUGO_SERVER) {
                 group = HUGO
                 description = "Run server for development of Hugo static site."
-                sourceDirectory.convention(pluginExtension.sourceDirectory)
+                sourceDirectory.set(pluginExtension.sourceDirectory)
+                hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 baseURL.convention("")
                 args.convention("")
-                dependsOn(hugoDownload)
             }
         }
     }

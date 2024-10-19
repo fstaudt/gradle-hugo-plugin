@@ -6,11 +6,10 @@ import io.github.fstaudt.hugo.OsFamily.UNIX
 import io.github.fstaudt.hugo.OsFamily.WINDOWS
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ArchiveOperations
-import org.gradle.api.file.Directory
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Property
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
@@ -60,15 +59,15 @@ abstract class HugoDownload : DefaultTask() {
     @get:Inject
     protected abstract val archives: ArchiveOperations
 
-    @OutputDirectory
-    protected val output: Provider<Directory> = layout.buildDirectory.dir(BINARY_DIRECTORY)
+    @get:OutputDirectory
+    abstract val hugoBinaryDirectory: DirectoryProperty
 
     @TaskAction
     fun download() {
         downloadArchive().also {
             when (it.extension) {
-                "zip" -> fs.copy { from(archives.zipTree(it)); into(output) }
-                "tgz", "tar", "gz" -> fs.copy { from(archives.tarTree(it)); into(output) }
+                "zip" -> fs.copy { from(archives.zipTree(it)); into(hugoBinaryDirectory) }
+                "tgz", "tar", "gz" -> fs.copy { from(archives.tarTree(it)); into(hugoBinaryDirectory) }
                 else -> throw ZipException("Unsupported extension for archive ${it.name}.")
             }
         }

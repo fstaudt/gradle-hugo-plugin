@@ -1,11 +1,14 @@
 package io.github.fstaudt.hugo.tasks
 
-import io.github.fstaudt.hugo.tasks.HugoDownload.Companion.BINARY_DIRECTORY
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
@@ -35,6 +38,10 @@ abstract class HugoServer : DefaultTask() {
     @get:Option(option = "args", description = "Additional arguments for Hugo server command (defaults to \"\")")
     abstract val args: Property<String>
 
+    @get:InputDirectory
+    @get:PathSensitive(RELATIVE)
+    abstract val hugoBinaryDirectory: DirectoryProperty
+
     @get:Inject
     protected abstract val layout: ProjectLayout
 
@@ -50,7 +57,7 @@ abstract class HugoServer : DefaultTask() {
                 args.get().split(' ')
         process.exec {
             workingDir = baseDir
-            executable = layout.buildDirectory.dir("$BINARY_DIRECTORY/hugo").get().asFile.absolutePath
+            executable = hugoBinaryDirectory.file("hugo").get().asFile.absolutePath
             args = arguments
         }
     }
