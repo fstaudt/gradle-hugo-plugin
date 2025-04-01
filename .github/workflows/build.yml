@@ -17,14 +17,14 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: "Setup gradle"
-        uses: gradle/actions/setup-gradle@v4.3.0
+        uses: gradle/actions/setup-gradle@v4.3.1
         with:
           cache-cleanup: on-success
       - name: "Run Tests"
         run: ./gradlew check
       - name: "Collect Tests Result of failed tests"
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: tests-result
           path: ${{ github.workspace }}/build/reports/tests
@@ -47,14 +47,14 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: "Setup gradle"
-        uses: gradle/actions/setup-gradle@v4.3.0
+        uses: gradle/actions/setup-gradle@v4.3.1
         with:
           cache-cleanup: on-success
       - name: "Run Tests"
         run: ./gradlew check
       - name: "Collect Tests Result of failed tests"
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4.6.0
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: tests-result
           path: ${{ github.workspace }}/build/reports/tests
