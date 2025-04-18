@@ -49,7 +49,7 @@ jobs:
       - name: "Setup gradle"
         uses: gradle/actions/setup-gradle@v4.3.1
         with:
-          cache-cleanup: on-success
+          cache-read-only: true
       - name: "Run Tests"
         run: ./gradlew check
       - name: "Collect Tests Result of failed tests"
