@@ -32,7 +32,7 @@ class HugoPlugin : Plugin<Project> {
 
     companion object {
         const val HUGO = "hugo"
-        const val HUGO_VERSION = "0.136.2"
+        const val HUGO_VERSION = "0.144.0"
         const val SOURCE_DIRECTORY = "site"
         private val LOGGER: Logger = Logging.getLogger(HugoPlugin::class.java)
     }

@@ -36,9 +36,9 @@ import java.io.File
 class HugoDownloadTest {
     companion object {
         private const val TEST_HUGO_BINARIES_DIRECTORY = "src/test/resources/hugo-binaries"
-        const val WINDOWS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_windows-amd64.zip"
-        const val LINUX_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_linux-amd64.tar.gz"
-        const val MAC_OS_ARCHIVE = "$HUGO_PATH/v0.136.2/hugo_extended_0.136.2_darwin-universal.tar.gz"
+        const val WINDOWS_ARCHIVE = "$HUGO_PATH/v0.144.0/hugo_extended_0.144.0_windows-amd64.zip"
+        const val LINUX_ARCHIVE = "$HUGO_PATH/v0.144.0/hugo_extended_0.144.0_linux-amd64.tar.gz"
+        const val MAC_OS_ARCHIVE = "$HUGO_PATH/v0.144.0/hugo_extended_0.144.0_darwin-universal.tar.gz"
 
         private lateinit var wiremock: WireMockServer
 
