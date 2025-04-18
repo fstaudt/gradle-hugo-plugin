@@ -1,3 +1,8 @@
+## 0.10.0 - Apr 18, 2025
+
+- :sparkles: bump default Hugo version to 0.144.0
+- :construction_worker: bump Gradle to 8.13
+
 ## 0.9.0 - Oct 19, 2024
 
 - :sparkles: reuse downloaded archive when it is still available
