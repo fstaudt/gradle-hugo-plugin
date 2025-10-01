@@ -3,7 +3,7 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "1.3.1"
+    id("com.gradle.plugin-publish") version "2.0.0"
     `maven-publish`
 }
 
@@ -51,9 +51,9 @@ testing {
             useJUnitJupiter()
             dependencies {
                 implementation(gradleTestKit())
-                implementation("org.assertj:assertj-core:3.27.3")
-                implementation("org.junit.jupiter:junit-jupiter-api:5.12.2")
-                implementation("io.mockk:mockk-jvm:1.14.2")
+                implementation("org.assertj:assertj-core:3.27.6")
+                implementation("org.junit.jupiter:junit-jupiter-api:6.0.0")
+                implementation("io.mockk:mockk-jvm:1.14.5")
                 implementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
             }
