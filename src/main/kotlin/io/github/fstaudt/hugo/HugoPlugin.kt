@@ -78,7 +78,6 @@ class HugoPlugin : Plugin<Project> {
                 description = "Run server for development of Hugo static site."
                 sourceDirectory.set(pluginExtension.sourceDirectory)
                 hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
-                baseURL.convention("")
                 args.convention("")
             }
         }

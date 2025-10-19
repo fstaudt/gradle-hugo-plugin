@@ -53,7 +53,7 @@ abstract class HugoServer : DefaultTask() {
         val baseDir = layout.projectDirectory.dir(sourceDirectory.get()).asFile
         baseDir.mkdirs()
         val arguments = listOf("serve") +
-                (baseURL.get().takeIf { it.isNotBlank() }?.let { listOf("--baseURL", it) } ?: emptyList()) +
+                (baseURL.orNull?.let { listOf("--baseURL", it) } ?: emptyList()) +
                 args.get().split(' ')
         process.exec {
             workingDir = baseDir
