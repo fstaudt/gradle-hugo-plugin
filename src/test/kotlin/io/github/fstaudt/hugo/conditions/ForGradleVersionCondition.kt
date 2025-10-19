@@ -11,12 +11,12 @@ class ForGradleVersionCondition : ExecutionCondition {
         val annotation = context.element.get().getAnnotation(ForGradleVersion::class.java)
         val gradleVersion = testGradleVersion().toVersion()
         annotation.below.takeIf { it.isNotBlank() }?.toVersion()?.let { below ->
-            if (below < gradleVersion) {
-                return ConditionEvaluationResult.disabled("Version $gradleVersion is not before $below")
+            if (below <= gradleVersion) {
+                return ConditionEvaluationResult.disabled("Version $gradleVersion is not strictly before $below")
             }
         }
         annotation.aboveOrEqualTo.takeIf { it.isNotBlank() }?.toVersion()?.let { equalToOrAbove ->
-            if (gradleVersion <= equalToOrAbove) {
+            if (gradleVersion < equalToOrAbove) {
                 return ConditionEvaluationResult.disabled("Version $gradleVersion is not after or equal to $equalToOrAbove")
             }
         }
