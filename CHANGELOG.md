@@ -1,3 +1,12 @@
+## 0.11.0 - Oct 25, 2025
+
+- :sparkles: bump default Hugo version to 0.152.2
+- :construction_worker: bump Gradle to 9.1.0
+
+### Breaking changes
+
+Gradle plugin requires at least Gradle 8.2.
+
 ## 0.10.0 - Apr 18, 2025
 
 - :sparkles: bump default Hugo version to 0.144.0
