@@ -1,3 +1,9 @@
+## 0.12.0 - Dec 14, 2025
+
+- :sparkles: add environment variables to hugo process ([#81](https://github.com/fstaudt/gradle-hugo-plugin/issues/81))
+- :construction_worker: bump Gradle to 9.2.1
+- :construction_worker: drop foojay-resolver-convention plugin
+
 ## 0.11.0 - Oct 25, 2025
 
 - :sparkles: bump default Hugo version to 0.152.2
