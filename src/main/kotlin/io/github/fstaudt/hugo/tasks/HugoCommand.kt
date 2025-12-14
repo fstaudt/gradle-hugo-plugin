@@ -3,6 +3,7 @@ package io.github.fstaudt.hugo.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
@@ -40,6 +41,9 @@ abstract class HugoCommand : DefaultTask() {
     @get:Inject
     protected abstract val process: ExecOperations
 
+    @get:Input
+    abstract val environmentVariables: MapProperty<String, Any>
+
     @TaskAction
     fun run() {
         val baseDir = layout.projectDirectory.dir(sourceDirectory.get()).asFile
@@ -48,6 +52,7 @@ abstract class HugoCommand : DefaultTask() {
             workingDir = baseDir
             executable = hugoBinaryDirectory.file("hugo").get().asFile.absolutePath
             args = command.get().split(" ")
+            environment(environmentVariables.get())
         }
     }
 }

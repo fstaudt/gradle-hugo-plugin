@@ -33,7 +33,7 @@ class HugoServerTest {
     }
 
     @Test
-    fun `hugo should serve hugo site in default source directory with default parameters`() {
+    fun `hugoServer should serve hugo site in default source directory with default parameters`() {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
@@ -42,7 +42,7 @@ class HugoServerTest {
     }
 
     @Test
-    fun `hugo should serve hugo site in source directory on requested baseUrl`() {
+    fun `hugoServer should serve hugo site in source directory on requested baseUrl`() {
         testProject.runAndFail(
             WITH_BUILD_CACHE,
             HUGO_SERVER,
@@ -56,7 +56,7 @@ class HugoServerTest {
     }
 
     @Test
-    fun `hugo should serve hugo site in requested source directory`() {
+    fun `hugoServer should serve hugo site in requested source directory`() {
         testProject.initBuildFile {
             appendText(
                 """
@@ -75,7 +75,7 @@ class HugoServerTest {
 
     @Test
     @ForGradleVersion(aboveOrEqualTo = "8.2")
-    fun `hugo should serve hugo site in requested source directory set by assignment`() {
+    fun `hugoServer should serve hugo site in requested source directory set by assignment`() {
         testProject.initBuildFile {
             appendText(
                 """
@@ -89,6 +89,42 @@ class HugoServerTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
             assertThat(it.output).contains("Error: command error: Unable to locate config file or config directory.")
+        }
+    }
+
+    @Test
+    fun `hugoServer should pass environment variables to hugo process`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                tasks.withType<${HugoServer::class.java.name}> {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
+            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+        }
+    }
+
+    @Test
+    fun `hugoServer should pass environment variables from extension to hugo process`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                hugo {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
+            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
         }
     }
 

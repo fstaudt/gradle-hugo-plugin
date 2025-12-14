@@ -49,6 +49,44 @@ class HugoBuildTest {
     }
 
     @Test
+    fun `hugoBuild should pass environment variables to hugo process`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                tasks.withType<${HugoBuild::class.java.name}> {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+                assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+                assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+                assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/env/index.html")).isFile
+                    .content().contains("custom-value")
+            }
+    }
+
+    @Test
+    fun `hugoBuild should pass environment variables from extension to hugo process`() {
+        testProject.initBuildFile {
+            appendText(
+                """
+                hugo {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_BUILD).also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_BUILD")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject.buildDir}/$PUBLISH_DIRECTORY/env/index.html")).isFile
+                .content().contains("custom-value")
+        }
+    }
+
+    @Test
     fun `hugoBuild should build from requested source directory`() {
         val testProject = testProject()
         testProject.initBuildFile {

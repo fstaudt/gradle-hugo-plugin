@@ -6,6 +6,7 @@ import io.github.fstaudt.hugo.TestProject
 import io.github.fstaudt.hugo.WITH_BUILD_CACHE
 import io.github.fstaudt.hugo.conditions.ForGradleVersion
 import io.github.fstaudt.hugo.initBuildFile
+import io.github.fstaudt.hugo.initHugoResources
 import io.github.fstaudt.hugo.run
 import io.github.fstaudt.hugo.runAndFail
 import io.github.fstaudt.hugo.tasks.HugoCommand.Companion.HUGO_COMMAND
@@ -86,6 +87,46 @@ class HugoCommandTest {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
             assertThat(it.output).contains("hugo v$HUGO_VERSION")
+        }
+    }
+
+    @Test
+    fun `hugo should pass environment variables to hugo process`() {
+        testProject.initHugoResources()
+        testProject.initBuildFile {
+            appendText(
+                """
+                tasks.withType<${HugoCommand::class.java.name}> {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND, "--command=build").also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/$SOURCE_DIRECTORY/public/env/index.html")).isFile
+                .content().contains("custom-value")
+        }
+    }
+
+    @Test
+    fun `hugo should pass environment variables from extension to hugo process`() {
+        testProject.initHugoResources()
+        testProject.initBuildFile {
+            appendText(
+                """
+                hugo {
+                  environmentVariables = mapOf("CUSTOM_ENV_VAR" to "custom-value")
+                }
+            """.trimIndent()
+            )
+        }
+        testProject.run(WITH_BUILD_CACHE, HUGO_COMMAND, "--command=build").also {
+            assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
+            assertThat(it.task(":$HUGO_COMMAND")!!.outcome).isEqualTo(SUCCESS)
+            assertThat(File("${testProject}/$SOURCE_DIRECTORY/public/env/index.html")).isFile
+                .content().contains("custom-value")
         }
     }
 

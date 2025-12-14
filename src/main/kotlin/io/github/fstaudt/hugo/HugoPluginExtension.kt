@@ -1,5 +1,6 @@
 package io.github.fstaudt.hugo
 
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 
@@ -21,4 +22,7 @@ interface HugoPluginExtension {
 
     @get:Input
     val osFamily: Property<OsFamily>
+
+    @get:Input
+    val environmentVariables: MapProperty<String, Any>
 }

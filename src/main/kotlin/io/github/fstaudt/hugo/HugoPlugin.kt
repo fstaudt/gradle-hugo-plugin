@@ -46,6 +46,7 @@ class HugoPlugin : Plugin<Project> {
                 linuxDownloadUrl.convention(LINUX_DOWNLOAD_URL)
                 macOSDownloadUrl.convention(MAC_OS_DOWNLOAD_URL)
                 osFamily.convention(defaultOsFamily())
+                environmentVariables.convention(emptyMap())
             }
             val hugoDownload = tasks.register<HugoDownload>(HUGO_DOWNLOAD) {
                 group = HUGO
@@ -63,6 +64,7 @@ class HugoPlugin : Plugin<Project> {
                 sourceDirectory.set(pluginExtension.sourceDirectory)
                 hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 command.convention("new site .")
+                environmentVariables.set(pluginExtension.environmentVariables)
             }
             tasks.register<HugoBuild>(HUGO_BUILD) {
                 group = HUGO
@@ -72,6 +74,7 @@ class HugoPlugin : Plugin<Project> {
                 hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 publicationPath.convention("")
                 outputDirectory.set(layout.buildDirectory.dir(PUBLISH_DIRECTORY).map { it.asFile })
+                environmentVariables.set(pluginExtension.environmentVariables)
             }
             tasks.register<HugoServer>(HUGO_SERVER) {
                 group = HUGO
@@ -79,6 +82,7 @@ class HugoPlugin : Plugin<Project> {
                 sourceDirectory.set(pluginExtension.sourceDirectory)
                 hugoBinaryDirectory.set(hugoDownload.flatMap { it.hugoBinaryDirectory })
                 args.convention("")
+                environmentVariables.set(pluginExtension.environmentVariables)
             }
         }
     }

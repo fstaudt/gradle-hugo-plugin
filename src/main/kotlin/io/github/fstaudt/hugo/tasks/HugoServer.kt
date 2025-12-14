@@ -3,6 +3,7 @@ package io.github.fstaudt.hugo.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
@@ -42,6 +43,9 @@ abstract class HugoServer : DefaultTask() {
     @get:PathSensitive(RELATIVE)
     abstract val hugoBinaryDirectory: DirectoryProperty
 
+    @get:Input
+    abstract val environmentVariables: MapProperty<String, Any>
+
     @get:Inject
     protected abstract val layout: ProjectLayout
 
@@ -59,6 +63,7 @@ abstract class HugoServer : DefaultTask() {
             workingDir = baseDir
             executable = hugoBinaryDirectory.file("hugo").get().asFile.absolutePath
             args = arguments
+            environment(environmentVariables.get())
         }
     }
 }

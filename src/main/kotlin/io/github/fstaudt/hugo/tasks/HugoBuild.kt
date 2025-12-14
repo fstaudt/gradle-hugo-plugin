@@ -3,6 +3,7 @@ package io.github.fstaudt.hugo.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.IgnoreEmptyDirectories
@@ -52,6 +53,9 @@ abstract class HugoBuild : DefaultTask() {
     @get:OutputDirectory
     abstract val outputDirectory: Property<File>
 
+    @get:Input
+    abstract val environmentVariables: MapProperty<String, Any>
+
     @TaskAction
     fun build() {
         outputDirectory.get().deleteRecursively()
@@ -61,6 +65,7 @@ abstract class HugoBuild : DefaultTask() {
             workingDir = sourceDirectory.get()
             executable = hugoBinaryDirectory.file("hugo").get().asFile.absolutePath
             args = arguments
+            environment(environmentVariables.get())
         }
     }
 }

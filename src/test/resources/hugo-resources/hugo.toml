@@ -1,3 +1,6 @@
 baseURL = 'http://example.org/'
 languageCode = 'en-us'
 title = 'Test'
+[security]
+  [security.funcs]
+    getenv = ['^CUSTOM_']

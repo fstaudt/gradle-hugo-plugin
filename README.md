@@ -29,6 +29,8 @@ hugo {
     macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_darwin-universal.tar.gz"
     // Operating system family (Windows, macOS or Unix)
     osFamily = io.github.fstaudt.hugo.OsFamily.CURRENT_SYSTEM // default value derived from system property "os.name"
+    // optional additional environment variables for Hugo process
+    environmentVariables = emptyMap<String, Any>()
 }
 ```
 
@@ -45,6 +47,15 @@ It defaults to `new site .`.
 gradle hugo --command=check
 ```
 
+Task configuration can be overridden according to your needs (example values provided below).
+
+```kotlin
+tasks.hugo {
+    // optional additional environment variables for Hugo process (overrides extension configuration)
+    environmentVariables = emptyMap<String, Any>()
+}
+```
+
 ### hugoServer
 
 Run server for development of Hugo static site.
@@ -57,6 +68,8 @@ tasks.hugoServer {
     baseURL = "http://localhost:1313/documentation/"
     // optional additional server arguments (appended to arguments generated from baseUrl)
     args = "--buildDrafts --buildExpired"
+    // optional additional environment variables for Hugo process (overrides extension configuration)
+    environmentVariables = emptyMap<String, Any>()
 }
 ```
 
@@ -76,6 +89,8 @@ tasks.hugoBuild {
     publicationPath = ""
     // optional additional build arguments (appended to "-d" argument generated from previous properties) 
     args = ""
+    // optional additional environment variables for Hugo process (overrides extension configuration)
+    environmentVariables = emptyMap<String, Any>()
 }
 ```
 
