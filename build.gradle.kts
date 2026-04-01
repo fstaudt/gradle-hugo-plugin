@@ -3,7 +3,7 @@
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "2.0.0"
+    id("com.gradle.plugin-publish") version "2.1.1"
     `maven-publish`
 }
 
@@ -52,7 +52,7 @@ testing {
             dependencies {
                 implementation(gradleTestKit())
                 implementation("org.assertj:assertj-core:3.27.7")
-                implementation("org.junit.jupiter:junit-jupiter-api:6.0.2")
+                implementation("org.junit.jupiter:junit-jupiter-api:6.0.3")
                 implementation("io.mockk:mockk-jvm:1.14.9")
                 implementation("com.github.tomakehurst:wiremock-jre8:3.0.1")
                 runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
