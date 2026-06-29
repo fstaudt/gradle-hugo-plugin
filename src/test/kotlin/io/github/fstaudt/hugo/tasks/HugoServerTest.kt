@@ -37,7 +37,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+            assertThat(it.output).contains("ERROR command error: unknown flag: --forceFailure")
         }
     }
 
@@ -51,7 +51,7 @@ class HugoServerTest {
         ).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+            assertThat(it.output).contains("ERROR command error: unknown flag: --forceFailure")
         }
     }
 
@@ -69,7 +69,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: Unable to locate config file or config directory.")
+            assertThat(it.output).contains("ERROR command error: Unable to locate config file or config directory.")
         }
     }
 
@@ -88,7 +88,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER).also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: Unable to locate config file or config directory.")
+            assertThat(it.output).contains("ERROR command error: Unable to locate config file or config directory.")
         }
     }
 
@@ -106,7 +106,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+            assertThat(it.output).contains("ERROR command error: unknown flag: --forceFailure")
         }
     }
 
@@ -124,7 +124,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--forceFailure").also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+            assertThat(it.output).contains("ERROR command error: unknown flag: --forceFailure")
         }
     }
 
@@ -133,7 +133,7 @@ class HugoServerTest {
         testProject.runAndFail(WITH_BUILD_CACHE, HUGO_SERVER, "--args=--port 1314 --forceFailure").also {
             assertThat(it.task(":$HUGO_DOWNLOAD")!!.outcome).isIn(SUCCESS, FROM_CACHE)
             assertThat(it.task(":$HUGO_SERVER")!!.outcome).isEqualTo(FAILED)
-            assertThat(it.output).contains("Error: command error: unknown flag: --forceFailure")
+            assertThat(it.output).contains("ERROR command error: unknown flag: --forceFailure")
         }
     }
 }
