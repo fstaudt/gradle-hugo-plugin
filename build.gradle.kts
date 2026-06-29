@@ -76,7 +76,4 @@ testing {
     }
 }
 
-val gradleWrapperVersion: String by project
-tasks.wrapper {
-    gradleVersion = gradleWrapperVersion
-}
+tasks.wrapper { gradleVersion = "${project.property("gradleWrapperVersion")}" }
