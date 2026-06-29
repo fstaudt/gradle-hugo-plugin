@@ -8,7 +8,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(25)
 }
 
 repositories {
@@ -42,7 +42,7 @@ tasks.validatePlugins {
 }
 
 val currentGradleVersion: String = GradleVersion.current().version
-val additionalGradleVersions = listOf("8.2")
+val additionalGradleVersions = listOf("9.1.0")
 val testGradleVersion = "testGradleVersion"
 val displayNameSuffix = "displayNameSuffix"
 testing {
