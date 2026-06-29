@@ -26,7 +26,7 @@ hugo {
     // Download URL for Linux ( {0} can be used to replace version )
     linuxDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_linux-amd64.tar.gz"
     // Download URL for macOS ( {0} can be used to replace version )
-    macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_darwin-universal.tar.gz"
+    macOSDownloadUrl = "https://github.com/gohugoio/hugo/releases/download/v{0}/hugo_extended_{0}_darwin-universal.pkg"
     // Operating system family (Windows, macOS or Unix)
     osFamily = io.github.fstaudt.hugo.OsFamily.CURRENT_SYSTEM // default value derived from system property "os.name"
     // optional additional environment variables for Hugo process

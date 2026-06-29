@@ -14,9 +14,11 @@ import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.internal.ensureParentDirsCreated
 import java.io.File
 import java.io.FileOutputStream
+import java.net.URI
 import java.net.URL
 import java.text.MessageFormat
 import java.util.zip.ZipException
@@ -32,7 +34,7 @@ abstract class HugoDownload : DefaultTask() {
         const val HUGO_PATH = "gohugoio/hugo/releases/download"
         const val WINDOWS_DOWNLOAD_URL = "https://github.com/$HUGO_PATH/v{0}/hugo_extended_{0}_windows-amd64.zip"
         const val LINUX_DOWNLOAD_URL = "https://github.com/$HUGO_PATH/v{0}/hugo_extended_{0}_linux-amd64.tar.gz"
-        const val MAC_OS_DOWNLOAD_URL = "https://github.com/$HUGO_PATH/v{0}/hugo_extended_{0}_darwin-universal.tar.gz"
+        const val MAC_OS_DOWNLOAD_URL = "https://github.com/$HUGO_PATH/v{0}/hugo_extended_{0}_darwin-universal.pkg"
     }
 
     @get:Input
@@ -59,6 +61,9 @@ abstract class HugoDownload : DefaultTask() {
     @get:Inject
     protected abstract val archives: ArchiveOperations
 
+    @get:Inject
+    protected abstract val execOperations: ExecOperations
+
     @get:OutputDirectory
     abstract val hugoBinaryDirectory: DirectoryProperty
 
@@ -68,6 +73,7 @@ abstract class HugoDownload : DefaultTask() {
             when (it.extension) {
                 "zip" -> fs.copy { from(archives.zipTree(it)); into(hugoBinaryDirectory) }
                 "tgz", "tar", "gz" -> fs.copy { from(archives.tarTree(it)); into(hugoBinaryDirectory) }
+                "pkg" -> extractPkgArchive(it)
                 else -> throw ZipException("Unsupported extension for archive ${it.name}.")
             }
         }
@@ -95,6 +101,28 @@ abstract class HugoDownload : DefaultTask() {
             WINDOWS -> windowsDownloadUrl
             MAC -> macOSDownloadUrl
             UNIX -> linuxDownloadUrl
-        }.let { URL(MessageFormat.format(it.get(), version.get())) }
+        }.let { URI(MessageFormat.format(it.get(), version.get())).toURL() }
+    }
+
+    private fun extractPkgArchive(pkgFile: File) {
+        val pkgTempDir = layout.buildDirectory.file("$DOWNLOAD_DIRECTORY/pkg").get().asFile
+        val outputDir = hugoBinaryDirectory.get().asFile
+        try {
+            outputDir.mkdirs()
+            execOperations.exec {
+                commandLine("pkgutil", "--expand", pkgFile.absolutePath, pkgTempDir.absolutePath)
+            }
+            val payloadFile = pkgTempDir.walkTopDown().first { it.name == "Payload" }
+            logger.info("Extracting payload from ${payloadFile.absolutePath}")
+            execOperations.exec {
+                commandLine("sh", "-c", "cd '${outputDir.absolutePath}' && cat '${payloadFile.absolutePath}' | gunzip | cpio -i")
+            }
+            val hugoBinary = outputDir.walkTopDown().first { it.name == "hugo" && it.canExecute() }
+            logger.info("Successfully extracted Hugo binary to ${hugoBinary.absolutePath}")
+        } catch (e: Exception) {
+            throw IllegalStateException("Failed to extract PKG archive.", e)
+        } finally {
+            pkgTempDir.takeIf { it.exists() }?.deleteRecursively()
+        }
     }
 }
