@@ -1,3 +1,14 @@
+## 0.13.0 - Jun 29, 2026
+
+- :sparkles: bump default Hugo version to 0.163.3
+- :sparkles: support pkg archive extension for MacOS
+- :construction_worker: bump Java to 25
+- :construction_worker: bump Gradle to 9.6.1
+
+### Breaking changes
+
+Gradle plugin requires at least Gradle 9.1.0 and Java 25.
+
 ## 0.12.0 - Dec 14, 2025
 
 - :sparkles: add environment variables to hugo process ([#81](https://github.com/fstaudt/gradle-hugo-plugin/issues/81))
