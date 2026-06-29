@@ -3,8 +3,8 @@
 ![Build](https://github.com/fstaudt/gradle-hugo-plugin/workflows/Build/badge.svg)
 ![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/io.github.fstaudt.hugo)
 
-![Minimal Java version](https://img.shields.io/badge/Minimal_Java_version-17-blue)
-![Minimal Gradle version](https://img.shields.io/badge/Minimal_Gradle_version-7.6.4-blue)
+![Minimal Java version](https://img.shields.io/badge/Minimal_Java_version-25-blue)
+![Minimal Gradle version](https://img.shields.io/badge/Minimal_Gradle_version-9.1.0-blue)
 
 Wrapper for [Hugo](https://gohugo.io) static site generator.
 
